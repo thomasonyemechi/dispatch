@@ -34,7 +34,7 @@
         @endif
 
 
-    
+
 
         @yield('page_content')
 

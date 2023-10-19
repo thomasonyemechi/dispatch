@@ -19,17 +19,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
-
 Route::group(['middleware' => []], function () {
-
-
 
 
     Route::get('/admin-login', [AdminController::class, 'loginIndex']);
     Route::post('/staff-login', [AuthController::class, 'staffLogin']);
 
-    Route::group(['prefix' => '/admin', 'as' => 'admin.' ,'middleware' => ['auth']], function () {
+    Route::group(['prefix' => '/admin', 'as' => 'admin.', 'middleware' => ['auth']], function () {
         Route::get('/add-staff', [AdminController::class, 'addStaffIndex']);
         Route::get('/staff-list', [AdminController::class, 'viewAllStaff']);
         Route::get('/staff/{staff_id}', [AdminController::class, 'staffProfileIndex']);
@@ -40,31 +36,36 @@ Route::group(['middleware' => []], function () {
 
     });
 
-    Route::get('/login', function() {
+    Route::get('/login', function () {
         return view('other.login');
-    } );
+    });
 
 
+    Route::group(['prefix' => '/staff', 'as' => 'staff.', 'middleware' => ['auth']], function () {
 
-    Route::group(['prefix' => '/staff', 'as' => 'staff.' ,'middleware' => ['auth']], function () {
-
-        Route::get('/dashboard', function() {
+        Route::get('/dashboard', function () {
             return view('other.index');
-        } );
+        });
 
-        Route::get('/add-customer', function() {
-            return view('other.create_customer');
-        } );
-    
-        Route::post('add-customer', [CustomerController::class, 'addCustomer']);
-        Route::get('customer-list', [CustomerController::class, 'customerList']);
-        Route::get('customer/{customer_id}', [CustomerController::class, 'customerProfile']);
-        Route::get('create-order', [OrderController::class, 'createOrderIndex']);
+        Route::get('/add-customer', function () {
+            return view('other.customers.create_customer');
+        });
 
+        Route::controller(CustomerController::class)->group(function () {
+            Route::post('add-customer', [CustomerController::class, 'addCustomer']);
+            Route::get('customer-list', [CustomerController::class, 'customerList']);
+            Route::get('customer/{customer_id}', [CustomerController::class, 'customerProfile']);
+        });
+
+
+        //Order Controller
+        Route::controller(OrderController::class)->group(function () {
+            Route::get('create-order', 'createOrderIndex')->name('create-order');
+            Route::post('create-order', 'createOrder')->name('create-order');
+        });
 
 
     });
-
 
 
     Route::get('/', function () {

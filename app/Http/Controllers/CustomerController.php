@@ -7,18 +7,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
-{   
+{
 
     function customerProfile($customer_id)
     {
         $customer = Customer::findorfail($customer_id);
-        return view('other.customer-profile', compact(['customer']));
+        return view('other.customers.customer-profile', compact(['customer']));
     }
 
     function customerList()
     {
         $customers = Customer::orderby('id','desc')->paginate(25);
-        return view('other.customer-list', compact(['customers']));
+        return view('other.customers.customer-list', compact(['customers']));
     }
 
 
@@ -34,7 +34,7 @@ class CustomerController extends Controller
 
         Customer::create([
             'name' => $request->name,
-            'phone' => $request->phone, 
+            'phone' => $request->phone,
             'address' => $request->address,
             'email' => $request->email,
             'created_by' => auth()->user()->id
@@ -51,6 +51,6 @@ class CustomerController extends Controller
         if(!$customer)  {
             return response(['message' => 'No user with this phone number '], 404);
         }
-        return response(['message' => 'User vaidate', 'customer' => $customer], 200);
+        return response(['message' => 'User validated', 'customer' => $customer], 200);
     }
 }

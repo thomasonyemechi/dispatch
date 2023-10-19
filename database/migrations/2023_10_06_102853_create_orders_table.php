@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->integer('customer_id');
-            $table->integer('designer_id');
+            $table->integer('customer_id')->references('id')->on('customers');
+            $table->integer('designer_id')->references('id')->on('users');
             $table->string('service_name');
             $table->string('files');
             $table->string('receiver_address');

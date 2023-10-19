@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('page_title')
-    Staff List 
+    Staff List
 @endsection
 @section('page_content')
     <link href="{{ asset('assets/vendor/bootstrap-datepicker-master/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
@@ -77,7 +77,7 @@
                         </div>
                     </div>
 
-                    <div class="table-pagenation d-flex justify-content-end teach">
+                    <div class="table-pagination d-flex justify-content-end teach">
                         {{ $staffs->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
