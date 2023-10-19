@@ -24,13 +24,19 @@ class Order extends Model
         'receiving_date',
         'created_by',
     ];
-    protected $casts = [
-        'files' => 'array',
-    ];
 
     public function customer(): BelongsTo
     {
-        return $this->belongsTo(Customer::class,'customer_id','id');
+        return $this->belongsTo(Customer::class, 'customer_id', 'id');
     }
 
+    public function designer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'designer_id', 'id');
+    }
+
+    public function staff(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
 }

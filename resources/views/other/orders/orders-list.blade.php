@@ -1,3 +1,4 @@
+@php use App\Enums\OrderStatus; @endphp
 @extends('layouts.other')
 
 @section('page_title')
@@ -41,25 +42,37 @@
             </div>
         @endif
 
+        {{--        @dd($orders)--}}
 
         @foreach ($orders as $order)
-            <a href="/staff/customer/{{ $cus->id }}" class="link-dark">
+            <a href="/staff/customer/{{ $order->id }}" class="link-dark">
                 <div
                     class="bg-white rounded-3 shadow d-flex align-items-center justify-content-between p-3 border border mb-2">
                     <div>
-                        <h6 class="mb-1"> {{ $cus->name }} </h6>
-                        <p class="mb-1 text-muted small">Added {{ date('j M, Y H:i a', strtotime($cus->created_at)) }} |
+                        <h6 class="mb-1"> {{ $order->customer->name }} </h6>
+                        <p class="mb-1 text-muted small">Added {{ date('j M, Y H:i a', strtotime($order->created_at)) }}
+                            |
                             by
-                            {{ $cus->user->name }} </p>
-                        <p class="fw-bold text-success small m-0">Active</p>
+                            {{ $order->staff->name }} </p>
+                        {{--using the enum--}}
+                        @if($order->status == OrderStatus::PENDING->statusCode())
+                            <p class="fw-bold text-danger small m-0">{{OrderStatus::PENDING->value}}</p>
+                        @elseif($order->status == OrderStatus::COMPLETED->statusCode())
+                            <p class="fw-bold text-info small m-0">{{OrderStatus::COMPLETED->value}}</p>
+                        @elseif($order->status == OrderStatus::DISPATCHED->statusCode())
+                            <p class="fw-bold text-warning small m-0">{{OrderStatus::DISPATCHED->value}}</p>
+                        @elseif($order->status == OrderStatus::DELIVERED->statusCode())
+                            <p class="fw-bold text-success small m-0">{{OrderStatus::DELIVERED->value}}</p>
+                        @elseif($order->status == OrderStatus::CANCELED->statusCode())
+                            <p class="fw-bold text-danger small m-0">{{OrderStatus::CANCELED->value}}</p>
+                        @endif
                     </div>
-                    <img src="{{ asset($cus->photo) }}" alt="" class="img-fluid rounded-pill profile">
                 </div>
             </a>
         @endforeach
 
         <div class="pt-3 d-flex justify-content-end ">
-            {{ $customers->links('pagination::bootstrap-4') }}
+            {{ $orders->links('pagination::bootstrap-4') }}
         </div>
 
     </div>

@@ -62,6 +62,7 @@ Route::group(['middleware' => []], function () {
         Route::controller(OrderController::class)->group(function () {
             Route::get('create-order', 'createOrderIndex')->name('create-order');
             Route::post('create-order', 'createOrder')->name('create-order');
+            Route::get('orders', 'viewOrders')->name('view-orders');
         });
 
 

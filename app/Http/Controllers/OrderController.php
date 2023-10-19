@@ -88,7 +88,13 @@ class OrderController extends Controller
 
     public function viewOrders()
     {
-        $orders = Order::with('customer')->orderBy('id', 'desc')->paginate(25);
+        $orders = Order::with(relations: ['customer', 'designer', 'staff'])->orderBy('id', 'desc')->paginate(25);
         return view('other.orders.orders-list', compact('orders'));
+    }
+
+    public function viewOrder($id)
+    {
+        $order = Order::with(relations: ['customer', 'designer', 'staff'])->findOrFail($id);
+        return view('other.orders.order-profile', compact('order'));
     }
 }
