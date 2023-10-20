@@ -45,7 +45,7 @@
         {{--        @dd($orders)--}}
 
         @foreach ($orders as $order)
-            <a href="/staff/customer/{{ $order->id }}" class="link-dark">
+            <a href="/staff/order/{{ $order->id }}" class="link-dark">
                 <div
                     class="bg-white rounded-3 shadow d-flex align-items-center justify-content-between p-3 border border mb-2">
                     <div>
