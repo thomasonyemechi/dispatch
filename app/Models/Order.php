@@ -25,6 +25,12 @@ class Order extends Model
         'created_by',
     ];
 
+    protected $casts = [
+        'files' => 'array',
+        'total_price' => 'float',
+        'advance_paid' => 'float'
+    ];
+
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class, 'customer_id', 'id');

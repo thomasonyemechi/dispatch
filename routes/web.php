@@ -63,6 +63,8 @@ Route::group(['middleware' => []], function () {
             Route::get('create-order', 'createOrderIndex')->name('create-order');
             Route::post('create-order', 'createOrder')->name('create-order');
             Route::get('orders', 'viewOrders')->name('view-orders');
+            Route::get('order/{id}', 'viewOrder')->name('view-order');
+            Route::post('order/update-status/{id}', 'updateOrderStatus')->name('update-order-status');
         });
 
 

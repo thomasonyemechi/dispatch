@@ -97,4 +97,21 @@ class OrderController extends Controller
         $order = Order::with(relations: ['customer', 'designer', 'staff'])->findOrFail($id);
         return view('other.orders.order-profile', compact('order'));
     }
+
+    public function updateOrderStatus(Request $request, $id)
+    {
+        Validator::make($request->all(), [
+            'status' => ['required', 'int', 'in:1,2,3,4,5'],
+        ])->validate();
+
+        try {
+            $order = Order::findOrFail($id);
+            $order->status = $request->status;
+            $order->save();
+        } catch (\Exception $e) {
+            Log::emergency("File: " . $e->getFile() . " Line: " . $e->getLine() . " Message: " . $e->getMessage());
+            return back()->with('error', 'Something went wrong, try again');
+        }
+        return back()->with('success', 'Order status updated successfully');
+    }
 }
