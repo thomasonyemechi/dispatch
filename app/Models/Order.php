@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 class Order extends Model
 {
@@ -44,5 +46,15 @@ class Order extends Model
     public function staff(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function getTimeLeftAttribute()
+    {
+        $receivingDate = Carbon::parse($this->attributes['receiving_date']);
+        $now = Carbon::now();
+
+        return $receivingDate->diffForHumans($now, [
+            'syntax' => CarbonInterface::DIFF_ABSOLUTE
+        ]);
     }
 }

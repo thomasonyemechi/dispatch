@@ -18,6 +18,13 @@ return [
         'passwords' => 'users',
     ],
 
+    'drivers' => [
+        'eloquent' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Customer::class,
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards
@@ -39,6 +46,10 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+        'customers' => [
+            'driver' => 'session',
+            'provider' => 'customers',
         ],
     ],
 
@@ -62,15 +73,13 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\User::class, // Assuming your user model is 'User'
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'customers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Customer::class,
+        ],
     ],
-
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords

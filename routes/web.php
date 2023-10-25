@@ -22,8 +22,10 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => []], function () {
 
 
-    Route::get('/admin-login', [AdminController::class, 'loginIndex']);
+    Route::get('/admin-login', [AdminController::class, 'loginIndex'])->name('login');
+    Route::get('/customer-login', [CustomerController::class, 'loginIndex'])->name('customer-login')->middleware('redirect.customer.authenticated');
     Route::post('/staff-login', [AuthController::class, 'staffLogin']);
+    Route::post("/customer-login", [AuthController::class, 'customerLogin'])->name('auth.customer-login');
 
     Route::group(['prefix' => '/admin', 'as' => 'admin.', 'middleware' => ['auth']], function () {
         Route::get('/add-staff', [AdminController::class, 'addStaffIndex']);
@@ -40,6 +42,10 @@ Route::group(['middleware' => []], function () {
         return view('other.login');
     });
 
+    Route::group(['prefix' => '/customer', 'as' => 'customer.', 'middleware' => ['customer.auth'], 'controller' => CustomerController::class], function () {
+        Route::get('/orders', 'viewOrders')->name('view-orders');
+        Route::match(["GET", "POST"], '/logout', [AuthController::class, 'customerLogout'])->name('logout');
+    });
 
     Route::group(['prefix' => '/staff', 'as' => 'staff.', 'middleware' => ['auth']], function () {
 
