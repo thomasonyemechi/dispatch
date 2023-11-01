@@ -45,4 +45,9 @@ class Order extends Model
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
+
+    public function dispatcher()
+    {
+        return $this->belongsTo(User::class, 'dispatch_id', 'id');
+    }
 }
