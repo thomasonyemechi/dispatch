@@ -42,9 +42,13 @@
             </div>
         @endif
 
-        {{--        @dd($orders)--}}
 
         @foreach ($orders as $order)
+            @php
+                $statusInt = $order->status;
+                $enumStatus = OrderStatus::fromInt($statusInt);
+            @endphp
+            <a href="/staff/customer/{{ $order->id }}" class="link-dark">
             <a href="/staff/order/{{ $order->id }}" class="link-dark">
                 <div
                     class="bg-white rounded-3 shadow d-flex align-items-center justify-content-between p-3 border border mb-2">
@@ -55,17 +59,8 @@
                             by
                             {{ $order->staff->name }} </p>
                         {{--using the enum--}}
-                        @if($order->status == OrderStatus::PENDING->statusCode())
-                            <p class="fw-bold text-danger small m-0">{{OrderStatus::PENDING->value}}</p>
-                        @elseif($order->status == OrderStatus::COMPLETED->statusCode())
-                            <p class="fw-bold text-info small m-0">{{OrderStatus::COMPLETED->value}}</p>
-                        @elseif($order->status == OrderStatus::DISPATCHED->statusCode())
-                            <p class="fw-bold text-warning small m-0">{{OrderStatus::DISPATCHED->value}}</p>
-                        @elseif($order->status == OrderStatus::DELIVERED->statusCode())
-                            <p class="fw-bold text-success small m-0">{{OrderStatus::DELIVERED->value}}</p>
-                        @elseif($order->status == OrderStatus::CANCELED->statusCode())
-                            <p class="fw-bold text-danger small m-0">{{OrderStatus::CANCELED->value}}</p>
-                        @endif
+
+                        <p class="fw-bold {!! $enumStatus->statusClass() !!} small m-0">{{ $enumStatus }}</p>
                     </div>
                 </div>
             </a>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -29,5 +30,32 @@ class AuthController extends Controller
         }
 
         return back()->with('error', 'Invalid Credentials, Try again!');
+    }
+
+    function customerLogin(Request $request)
+    {
+        Validator::make($request->all(), [
+            'phone' => 'required|min:11|max:11',
+        ])->validate();
+
+        $customer = Customer::where('phone', $request->input('phone'))->first();
+
+        if ($customer) {
+            Auth::guard('customers')->login($customer);
+            return redirect()->intended('/customer/orders')->with('success', 'Welcome back!');
+        }
+
+        return back()->with('error', 'Invalid login details.');
+    }
+
+    public function customerLogout(Request $request)
+    {
+        Auth::guard('customers')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->route('customer-login'); // Redirect to the customer login page after logout
     }
 }

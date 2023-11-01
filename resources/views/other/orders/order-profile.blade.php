@@ -71,6 +71,15 @@
                 <p class="fw-bold text-danger small m-0">status: {{ OrderStatus::CANCELED->value }}</p>
             @endif
             <p class="mb-1 text-muted small">service name: {{ $order->service_name }}</p>
+        @php
+            $statusInt = $order->status;
+            $enumStatus = OrderStatus::fromInt($statusInt);
+        @endphp
+        <div class="mb-2 bg-white shadow p-3 border">
+            <h6 class="fw-bold">Details</h6>
+            <p class="mb-1 text-muted small">created by: {{$order->staff->name}}</p>
+            <p class="fw-bold {!! $enumStatus->statusClass() !!} small m-0">status: {{$enumStatus}}</p>
+            <p class="mb-1 text-muted small">service name: {{$order->service_name}}</p>
             <p class="mb-1 text-muted small">total
                 price: &#8358;{{ number_format($order->total_price, 2, '.', ',') }}</p>
             <p class="mb-1 text-muted small">advance
@@ -152,6 +161,12 @@
                             @if ($order->status == OrderStatus::DELIVERED->statusCode()) selected @endif>{{ OrderStatus::DELIVERED->value }}</option>
                         <option value="{{ OrderStatus::CANCELED->statusCode() }}"
                             @if ($order->status == OrderStatus::CANCELED->statusCode()) selected @endif>{{ OrderStatus::CANCELED->value }}</option>
+                        @foreach(OrderStatus::all() as $status)
+                            <option value="{{ $status->statusCode() }}"
+                                    @if($order->status == $status->statusCode()) selected @endif>
+                                {{ $status->value }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
 
