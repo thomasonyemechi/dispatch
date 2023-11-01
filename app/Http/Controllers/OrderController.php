@@ -94,8 +94,26 @@ class OrderController extends Controller
 
     public function viewOrder($id)
     {
-        $order = Order::with(relations: ['customer', 'designer', 'staff'])->findOrFail($id);
-        return view('other.orders.order-profile', compact('order'));
+        $order = Order::with(relations: ['customer', 'designer', 'staff', 'dispatcher'])->findOrFail($id);
+        $dispatch_riders = User::where(['role' => 'dispatch', 'status' => 1])->limit(100)->orderby('updated_at', 'desc')->get();
+        return view('other.orders.order-profile', compact(['order', 'dispatch_riders']));
+    }
+
+
+    function updateDispatchRider(Request $request) 
+    {
+
+
+        Validator::make($request->all(),[
+            'rider_id' => 'required|integer|exists:users,id',
+            'order_id' => 'required|integer|exists:orders,id'
+        ])->validate();
+
+        Order::where('id', $request->order_id)->update([
+            'dispatch_id' => $request->rider_id
+        ]);
+
+        return back()->with('success', 'Rider has been assigned to this order');
     }
 
     public function updateOrderStatus(Request $request, $id)

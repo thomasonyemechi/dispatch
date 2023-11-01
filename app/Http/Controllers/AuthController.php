@@ -18,10 +18,15 @@ class AuthController extends Controller
         ])->validate();
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password], true)) {
-            if (auth()->user()->role == 'admin') {
+            if (auth()->user()->role == 'administrator') {
                 return redirect('/admin/dashboard')->with('success', 'Welcome Back');
+            } elseif (auth()->user()->role == 'marketer') {
+                return redirect('/staff/dashboard')->with('success', 'Welcome Back');
+            }elseif (auth()->user()->role == 'dispatch') {
+                return redirect('/dispatch/dashboard')->with('success', 'Welcome Back');
             }
-            return redirect('/staff/dashboard')->with('success', 'Welcome Back');
+
+            abort(404);
         }
 
         return back()->with('error', 'Invalid Credentials, Try again!');
