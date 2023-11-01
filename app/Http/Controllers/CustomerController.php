@@ -77,4 +77,17 @@ class CustomerController extends Controller
 
     }
 
+    public function viewAllPastOrders()
+    {
+        $customer = \Auth::guard('customers')->user();
+        $customer_id = $customer->id;
+        $today = Carbon::now();
+
+        $past_orders = Order::query()
+            ->where('customer_id', '=', $customer_id)
+            ->whereRaw("STR_TO_DATE(receiving_date, '%Y-%m-%d') < '" . $today->toDateString() . "'")->paginate(25);
+
+        return view('other.customers.past-orders', compact('past_orders'));
+    }
+
 }

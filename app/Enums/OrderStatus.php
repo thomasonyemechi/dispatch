@@ -30,6 +30,7 @@ enum OrderStatus: string
             self::DISPATCHED => 'text-info',
             self::DELIVERED => 'text-primary',
             self::CANCELED => 'text-danger',
+            default => 'text-muted',
         };
     }
 

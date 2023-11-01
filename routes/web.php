@@ -45,6 +45,7 @@ Route::group(['middleware' => []], function () {
     Route::group(['prefix' => '/customer', 'as' => 'customer.', 'middleware' => ['customer.auth'], 'controller' => CustomerController::class], function () {
         Route::get('/orders', 'viewOrders')->name('view-orders');
         Route::match(["GET", "POST"], '/logout', [AuthController::class, 'customerLogout'])->name('logout');
+        Route::get('/past-orders', 'viewAllPastOrders')->name('past-orders');
     });
 
     Route::group(['prefix' => '/staff', 'as' => 'staff.', 'middleware' => ['auth']], function () {
