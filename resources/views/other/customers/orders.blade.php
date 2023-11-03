@@ -11,7 +11,7 @@
         </div>
 
         <div class="d-flex align-items-center gap-3 ms-auto">
-            <a href="notification.html" class="bg-white shadow rounded-pill notification-icon position-relative">
+            <a href="/notification" class="bg-white shadow rounded-pill notification-icon position-relative">
                 <i class="bx bxs-bell h5 m-0 text-primary"></i>
                 <span
                     class="position-absolute top-0 ms-5 mt-1 translate-middle badge rounded-circle bg-danger py-1 fw-normal">
@@ -19,8 +19,7 @@
                     <span class="visually-hidden">unread messages</span>
                 </span>
             </a>
-            <a class="toggle notification-icon d-flex align-items-center bg-white rounded-pill" href="#"><i
-                    class="bx bx-menu bx-sm text-primary"></i></a>
+
         </div>
     </div>
 
@@ -33,16 +32,16 @@
 
     <div class="vh-100 my-auto overflow-auto p-3">
 
-        @if ($current_orders || $past_orders)
+        {{-- @if ($current_orders || $past_orders)
             <div class="bg-white rounded-3 shadow  p-3 border border mb-2">
                 <form action="">
                     <input type="search" class="form-control " style="width: 100%" name="orders"
-                           placeholder="Search Orders">
+                        placeholder="Search Orders">
                 </form>
             </div>
-        @endif
+        @endif --}}
 
-        @if($current_orders->count() > 0)
+        @if ($current_orders->count() > 0)
             <div class="mb-5">
                 <h5 class="mb-3">Current</h5>
                 <div>
@@ -59,8 +58,8 @@
                                         $statusInt = $order->status;
                                         $enumStatus = \App\Enums\OrderStatus::fromInt($statusInt);
                                     @endphp
-                                    <p class="{!! $enumStatus->statusClass() !!} mb-0">{{$enumStatus}}<span
-                                            class="fw-normal text-muted ms-1 small">{{$order->time_left}} left</span>
+                                    <p class="{!! $enumStatus->statusClass() !!} mb-0">{{ $enumStatus }}<span
+                                            class="fw-normal text-muted ms-1 small">{{ $order->time_left }} left</span>
                                     </p>
                                 </div>
                             </div>
@@ -69,12 +68,12 @@
                 </div>
             </div>
         @endif
-        @if($past_orders->count() > 0)
+        @if ($past_orders->count() > 0)
             <div>
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <h5 class="fw-bold m-0">Past</h5>
-                    @if($past_orders->count() > 6)
-                        <a href="{{route('customer.past-orders')}}" class="d-flex align-items-center gap-1">See All<i
+                    @if ($past_orders->count() > 6)
+                        <a href="{{ route('customer.past-orders') }}" class="d-flex align-items-center gap-1">See All<i
                                 class="bx bxs-chevron-right"></i></a>
                     @endif
 
@@ -92,13 +91,20 @@
                                     $statusInt = $order->status;
                                     $enumStatus = \App\Enums\OrderStatus::fromInt($statusInt);
                                 @endphp
-                                <p class="{!! $enumStatus->statusClass() !!} mb-0">{{$enumStatus}}<span
-                                        class="fw-normal text-muted ms-1 small">{{$order->time_left}} left</span>
+                                <p class="{!! $enumStatus->statusClass() !!} mb-0">{{ $enumStatus }}<span
+                                        class="fw-normal text-muted ms-1 small">{{ $order->time_left }} left</span>
                                 </p>
                             </div>
                         </div>
                     </a>
                 @endforeach
+            </div>
+        @else
+            <div class="mt-5 d-flex justify-content-center align-items-center">
+                <div class="text-center" style="height: 16rem; width: 17rem;">
+                    <img src="{{ asset('assets/img/errors/empty_cart.svg') }}" alt="empty" class="img-fluid">
+                    <p class="text-center text-muted mt-3 font-900">Oops... No order has been created under this account</p>
+                </div>
             </div>
         @endif
 

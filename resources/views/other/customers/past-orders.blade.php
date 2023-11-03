@@ -33,14 +33,7 @@
 
     <div class="vh-100 my-auto overflow-auto p-3">
 
-        @if ($past_orders)
-            <div class="bg-white rounded-3 shadow  p-3 border border mb-2">
-                <form action="">
-                    <input type="search" class="form-control " style="width: 100%" name="orders"
-                           placeholder="Search Orders">
-                </form>
-            </div>
-        @endif
+
 
         @if($past_orders->count() > 0)
             <div class="mb-5">

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="img/logo.svg" type="image/png">
+    <link rel="icon" href="{{asset('favicon.png')}}" type="image/png">
     <title> @yield('page_title') | {{ env('APP_NAME') }}</title>
 
     <link rel="stylesheet" href="{{ asset('assets/vender/bootstrap/css/bootstrap.min.css') }}">
@@ -38,30 +38,12 @@
 
     @yield('page_content')
 
-    {{-- <div class="footer mt-auto osahan-footer bg-white shadow">
-        <div class="d-flex align-items-center justify-content-between bottom-nav-main">
-            <a href="home.html" class="col text-primary text-center">
-                <i class="bx bxs-home bx-sm"></i>
-                <p class="small m-0">Home</p>
-            </a>
-            <a href="find.html" class="col text-muted text-center">
-                <i class="bx bx-search bx-sm"></i>
-                <p class="small m-0">Find</p>
-            </a>
-            <a href="messages.html" class="col text-muted text-center">
-                <i class="bx bxs-message-dots bx-sm"></i>
-                <p class="small m-0">Messages</p>
-            </a>
-            <a href="requests.html" class="col text-muted text-center">
-                <i class="bx bxs-calendar-check bx-sm"></i>
-                <p class="small m-0">Request</p>
-            </a>
-            <a href="more.html" class="col text-muted text-center">
-                <i class="bx bxs-grid-alt bx-sm"></i>
-                <p class="small m-0">More</p>
-            </a>
-        </div>
-    </div> --}}
+
+
+    @if (Auth::guard('customers')->user())
+        @include('other.customers.customer-footer')
+    @endif
+
 
 
     <nav id="main-nav">
@@ -70,27 +52,17 @@
             <li><a href="/staff/add-customer"><i class="bx bxs-home me-2"></i>Add Customer</a></li>
             <li><a href="/staff/customer-list"><i class="bx bxs-home me-2"></i>Customer List</a></li>
             <li><a href="#"><i class="bx bxs-home me-2"></i>Create New Order</a></li>
-            <li><a href="#"><i class="bx bxs-home me-2"></i>Created Order</a></li>
-            <li><a href="#"><i class="bx bxs-home me-2"></i>Homepage</a></li>
-            <li><a href="#"><i class="bx bxs-home me-2"></i>Homepage</a></li>
-            <li><a href="#"><i class="bx bxs-home me-2"></i>Homepage</a></li>
-            <li><a href="#"><i class="bx bxs-user-circle me-2"></i>My Profile</a></li>
+            <li><a href="/staff/create-order"><i class="bx bxs-user-circle me-2"></i>My Profile</a></li>
         </ul>
         <ul class="bottom-nav">
             <li class="home">
-                <a href="home.html" class="text-primary">
+                <a href="/staff/dashboard" class="text-primary">
                     <p class="h5 m-0"><i class="bx bxs-home"></i></p>
                     Home
                 </a>
             </li>
-            <li class="find">
-                <a href="find.html">
-                    <p class="h5 m-0"><i class="bx bx-search"></i></p>
-                    Find
-                </a>
-            </li>
             <li class="more">
-                <a href="more.html">
+                <a href="#">
                     <p class="h5 m-0"><i class="bx bxs-grid-alt"></i></p>
                     More
                 </a>

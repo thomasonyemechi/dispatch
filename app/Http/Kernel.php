@@ -68,7 +68,7 @@ class Kernel extends HttpKernel
         'administrator' => \App\Http\Middleware\Administrator::class,
         'dispatch_rider' => \App\Http\Middleware\Dispatch::class,
         'marketer' => \App\Http\Middleware\Marketer::class,
-        'graphics' => \App\Http\Middleware\Graphics::class
+        'graphics' => \App\Http\Middleware\Graphics::class,
         'customer.auth' => \App\Http\Middleware\CustomerAuthMiddleware::class,
         'redirect.customer.authenticated' => \App\Http\Middleware\RedirectIfCustomerAuthenticated::class,
     ];

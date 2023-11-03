@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="img/logo.svg" type="image/png">
+    <link rel="icon" href="{{asset('favicon.png')}}" type="image/png">
     <title> Login | {{ env('APP_NAME') }}</title>
 
     <link rel="stylesheet" href="{{ asset('assets/vender/bootstrap/css/bootstrap.min.css') }}">
@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="{{ asset('assets/vender/sidebar/demo.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
+    @laravelPWA
 </head>
 
 <body>
@@ -54,7 +56,7 @@
                 @enderror
             </div>
             <div class="text-end mb-4">
-                <a href="#" class="text-decoration-underline text-muted small">Forget Password?</a>
+                <a href="/forgot-password" class="text-decoration-underline text-muted small">Forget Password?</a>
             </div>
             <button class="btn btn-primary btn-lg w-100">Log In</button>
         </form>
@@ -62,7 +64,7 @@
 
     <div class="footer fixed-bottom p-4">
 
-        <p class="text-muted text-center m-0">Login as <a href="#">customer</a></p>
+        <p class="text-muted text-center m-0">Login as <a href="customer-login">customer</a></p>
     </div>
 
 

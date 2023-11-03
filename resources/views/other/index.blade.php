@@ -4,6 +4,8 @@
     Dashboard
 @endsection
 @section('page_content')
+    <link rel="stylesheet" href="{{ asset('custom-style.css') }}">
+
     <div class="home-navbar bg-primary d-flex align-items-center gap-3 mb-auto p-3 osahan-header">
         <img src="{{ asset('assets/img/my-profile.jpg') }}" alt class="img-fluid rounded-pill profile">
         <div>
@@ -29,170 +31,209 @@
 
 
 
-    {{-- <div class="vh-100 my-auto overflow-auto">
+    <div class="vh-100 my-auto overflow-auto">
 
         <div class="pb-3 pt-3 bg-white shadow border-bottom">
             <div class="d-flex align-items-center justify-content-between px-3 pb-3 pt-1">
-                <h6 class="fw-bold m-0">Recently Added</h6>
-                <a href="my-favorites.html" class="d-flex align-items-center gap-1">See All<i
-                        class="bx bxs-chevron-right"></i></a>
-            </div>
-
-            <div class="favorites-slider">
-                <div class="favorites-item text-center">
-                    <img src="{{ asset('assets/img/profile/profile-1.jpg') }}" alt class="img-fluid shadow rounded-pill profile-lg">
-                    <p class="pt-2 m-0 lh-1">Victoria</p>
-                    <small class="text-success small">Online</small>
-                </div>
-                <div class="favorites-item text-center">
-                    <img src="{{ asset('assets/img/profile/profile-2.jpg') }}" alt class="img-fluid shadow rounded-pill profile-lg">
-                    <p class="pt-2 m-0 lh-1">David</p>
-                    <small class="text-danger small">Offline</small>
-                </div>
-                <div class="favorites-item text-center">
-                    <img src="{{ asset('assets/img/profile/profile-3.jpg') }}" alt class="img-fluid shadow rounded-pill profile-lg">
-                    <p class="pt-2 m-0 lh-1">Harvey</p>
-                    <small class="text-success small">Online</small>
-                </div>
-                <div class="favorites-item text-center">
-                    <img src="{{ asset('assets/img/profile/profile-4.jpg') }}" alt class="img-fluid shadow rounded-pill profile-lg">
-                    <p class="pt-2 m-0 lh-1">Sophia</p>
-                    <small class="text-success small">Online</small>
-                </div>
-                <div class="favorites-item text-center">
-                    <img src="{{ asset('assets/img/profile/profile-5.jpg') }}" alt class="img-fluid shadow rounded-pill profile-lg">
-                    <p class="pt-2 m-0 lh-1">James</p>
-                    <small class="text-danger small">Offline</small>
-                </div>
-            </div>
-        </div>
-
-        <div class="p-3">
-            <div class="create-job-background shadow-sm rounded-3 p-4 mb-4 d-flex">
-                <div class="text-white">
-                    <h6 class="fw-bold lh-base mb-3">Find the right trusted<br> caregiver for your family</h6>
-                    <a href="#" class="btn btn-warning">Create a Job post</a>
-                </div>
-                <img src="../../../static.wixstatic.com/media/6158ef_a699758dd65d472493287c0fe035bc9e_mv2.png/v1/crop/x_97%2cy_34%2cw_607%2ch_737/fill/w_322%2ch_392%2cal_c%2cq_85%2cusm_0.66_1.00_0.01%2cenc_auto/Helpee%20Caregivers.png"
-                    alt class="img-fluid ms-auto profile-lg">
-            </div>
-
-            <div>
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                    <h6 class="fw-bold m-0">Next Plan</h6>
-                    <a href="interview-in-past.html" class="d-flex align-items-center gap-1">See All <i
-                            class="bx bxs-chevron-right"></i></a>
-                </div>
-                <div>
-                    <a data-bs-toggle="modal" data-bs-target="#interviewModal" href="#" class="link-dark">
-                        <div
-                            class="bg-white rounded-3 shadow d-flex align-items-center justify-content-between p-3 border border mb-2">
-                            <div>
-                                <h6 class="mb-1">Christine Brandley</h6>
-                                <p class="mb-1 small text-muted">Today . 17:00 - 17:30</p>
-                                <p class="text-warning mb-0">Unconfirmed<span class="fw-normal text-muted ms-1 small">19
-                                        hours left</span></p>
-                            </div>
-                            <img src="img/profile/profile-1.jpg" alt class="img-fluid rounded-pill profile">
-                        </div>
-                    </a>
-                    <a data-bs-toggle="modal" data-bs-target="#interviewModal" href="#" class="link-dark">
-                        <div class="bg-white rounded-3 shadow d-flex align-items-center justify-content-between p-3 border">
-                            <div>
-                                <h6 class="mb-1">Lela Ramos</h6>
-                                <p class="mb-1 small text-muted">Thu SEP 2 . 14:00 - 14:30</p>
-                                <p class="text-primary m-0">Accepted</p>
-                            </div>
-                            <img src="img/profile/profile-4.jpg" alt class="img-fluid rounded-pill profile">
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="px-3 pb-3">
-
-            <div class="overflow-hidden upgrade-background shadow-sm rounded-3 mb-4 d-flex align-items-center">
-                <div class="col-7 py-4 ps-4">
-                    <h6 class="fw-bold lh-base mb-2">Find the right trusted<br>caregiver for your<br> family</h6>
-                    <a href="#" class="fw-bold bg-danger shadow text-white small px-2 py-1 rounded-pill">Upgrade
-                        Now</a>
-                </div>
-                <img src="../../../circleof.com/static/a4dd1b282737d8f603093c5d1b6ee3cd/7ffe1/hero.png" alt
-                    class="img-fluid col-5 ms-auto pt-2 mt-auto">
-            </div>
-
-            <div class="d-flex align-items-center justify-content-between mb-3">
-                <h6 class="fw-bold m-0">Recommended for you</h6>
+                <h6 class="fw-bold m-0">See all Orders</h6>
                 <a href="#" class="d-flex align-items-center gap-1">See All<i class="bx bxs-chevron-right"></i></a>
             </div>
-
-            <a href="profile.html" class="link-dark">
-                <div class="bg-white shadow rounded-3 p-3 mb-2 profile-detail border osahan-card">
-                    <div class="osahan-card-left">
-                        <img src="img/profile/profile-1.jpg" alt class="img-fluid shadow rounded-lg profile-img">
-                        <div class="mt-2 gap-2 d-flex">
-                            <span class="light-bg-success rounded-lg icon-sm"><img src="img/shield.png" alt
-                                    class="img-fluid"></span>
-                            <span class="bg-primary rounded-lg icon-sm"><img src="img/diamond.png" alt
-                                    class="img-fluid"></span>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-end gap-4">
-                        <div class="w-100">
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <h6 class="fw-bold mb-0">Edith Johnson</h6>
-                                <i class="bx bxs-heart text-danger"></i>
-                            </div>
-                            <p class="mb-1"><i class="bx bx-female-sign text-muted me-1"></i>28 . 6 yrs paid
-                                experience
-                            </p>
-                            <p class="mb-1"><i class="bx bxs-home-heart text-muted me-1"></i>Boston, NY . 2
-                                miles
-                            </p>
-                            <p class="fw-bold mb-1"><i class="bx bxs-star text-warning me-1"></i>4.85 <span
-                                    class="text-muted fw-normal small">(215 reviews)</span></p>
-                            <p class="fw-bold m-0"><i class="bx bxs-dollar-circle text-muted me-1"></i>$15-$20/hr
-                                <span class="text-muted fw-normal small">Cared for 192 families</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <a href="profile.html" class="link-dark">
-                <div class="bg-white shadow rounded-3 p-3 profile-detail border osahan-card">
-                    <div class="osahan-card-left">
-                        <img src="img/profile/profile-2.jpg" alt class="img-fluid shadow rounded-lg profile-img">
-                        <div class="mt-2 gap-2 d-flex">
-                            <span class="light-bg-success rounded-lg icon-sm"><img src="img/shield.png" alt
-                                    class="img-fluid"></span>
-                            <span class="bg-primary rounded-lg icon-sm"><img src="img/diamond.png" alt
-                                    class="img-fluid"></span>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-end gap-4">
-                        <div class="w-100">
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <h6 class="fw-bold mb-0">Christan McLaughlin</h6>
-                                <i class="bx bx-heart text-muted"></i>
-                            </div>
-                            <p class="mb-1"><i class="bx bx-male-sign text-muted me-1"></i>28 . 6 yrs paid
-                                experience
-                            </p>
-                            <p class="mb-1"><i class="bx bxs-home-heart text-muted me-1"></i>Rochester, NY . 2
-                                miles
-                            </p>
-                            <p class="fw-bold mb-1"><i class="bx bxs-star text-warning me-1"></i>4.85 <span
-                                    class="text-muted fw-normal small">(215 reviews)</span></p>
-                            <p class="fw-bold m-0"><i class="bx bxs-dollar-circle text-muted me-1"></i>$10-$15/hr
-                                <span class="text-muted fw-normal small">Cared for 192 families</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </a>
         </div>
-    </div> --}}
+
+
+
+        <div class="p-3">
+            <div class="row ">
+                <div class="col-xl-6 col-lg-6 col-6">
+                    <div class="card l-bg-cherry">
+                        <div class="card-statistic-3 p-4">
+                            <div class="card-icon card-icon-large"><i class="fas fa-shopping-cart"></i></div>
+                            <div class="mb-4">
+                                <h5 class="card-title mb-0">New Orders</h5>
+                            </div>
+                            <div class="row align-items-center mb-2 d-flex">
+                                <div class="col-8">
+                                    <h2 class="d-flex align-items-center mb-0">
+                                        3,243
+                                    </h2>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <span>12.5% <i class="fa fa-arrow-up"></i></span>
+                                </div>
+                            </div>
+                            <div class="progress mt-1 " data-height="8" style="height: 8px;">
+                                <div class="progress-bar l-bg-cyan" role="progressbar" data-width="25%" aria-valuenow="25"
+                                    aria-valuemin="0" aria-valuemax="100" style="width: 25%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-6">
+                    <div class="card l-bg-blue-dark">
+                        <div class="card-statistic-3 p-4">
+                            <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
+                            <div class="mb-4">
+                                <h5 class="card-title mb-0">Customers</h5>
+                            </div>
+                            <div class="row align-items-center mb-2 d-flex">
+                                <div class="col-8">
+                                    <h2 class="d-flex align-items-center mb-0">
+                                        15.07k
+                                    </h2>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <span>9.23% <i class="fa fa-arrow-up"></i></span>
+                                </div>
+                            </div>
+                            <div class="progress mt-1 " data-height="8" style="height: 8px;">
+                                <div class="progress-bar l-bg-green" role="progressbar" data-width="25%" aria-valuenow="25"
+                                    aria-valuemin="0" aria-valuemax="100" style="width: 25%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-6">
+                    <div class="card l-bg-green-dark">
+                        <div class="card-statistic-3 p-4">
+                            <div class="card-icon card-icon-large"><i class="fas fa-ticket-alt"></i></div>
+                            <div class="mb-4">
+                                <h5 class="card-title mb-0">Ticket Resolved</h5>
+                            </div>
+                            <div class="row align-items-center mb-2 d-flex">
+                                <div class="col-8">
+                                    <h2 class="d-flex align-items-center mb-0">
+                                        578
+                                    </h2>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <span>10% <i class="fa fa-arrow-up"></i></span>
+                                </div>
+                            </div>
+                            <div class="progress mt-1 " data-height="8" style="height: 8px;">
+                                <div class="progress-bar l-bg-orange" role="progressbar" data-width="25%" aria-valuenow="25"
+                                    aria-valuemin="0" aria-valuemax="100" style="width: 25%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-6">
+                    <div class="card l-bg-orange-dark">
+                        <div class="card-statistic-3 p-4">
+                            <div class="card-icon card-icon-large"><i class="fas fa-dollar-sign"></i></div>
+                            <div class="mb-4">
+                                <h5 class="card-title mb-0">Revenue Today</h5>
+                            </div>
+                            <div class="row align-items-center mb-2 d-flex">
+                                <div class="col-8">
+                                    <h2 class="d-flex align-items-center mb-0">
+                                        $11.61k
+                                    </h2>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <span>2.5% <i class="fa fa-arrow-up"></i></span>
+                                </div>
+                            </div>
+                            <div class="progress mt-1 " data-height="8" style="height: 8px;">
+                                <div class="progress-bar l-bg-cyan" role="progressbar" data-width="25%"
+                                    aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="p-3">
+
+            <div class="mb-3 rounded-3 bg-white shadow p-3 border">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="text-center">
+                        <a href="#">
+                            <div class="bg-primary text-white rounded-pill icon-sm m-auto">
+                                <h5 class="text-white m-0"><i class="bx bxs-user-plus"></i> </h5>
+                            </div>
+                            <p class="pt-2 m-0 small"> All Client</span></p>
+                        </a>
+                    </div>
+                    <div class="text-center">
+                        <a href="#">
+                            <div class="bg-success text-white rounded-pill icon-sm m-auto">
+                                <h5 class="text-white m-0"> <i class="bx bx-plus"></i> </h5>
+                            </div>
+                            <p class="pt-2 m-0 small">transactions</span>
+                            </p>
+                        </a>
+                    </div>
+                    <div class="text-center">
+                        <a href="#">
+                            <div class="bg-info rounded-pill icon-sm m-auto">
+                                <h5 class="text-white m-0"> <i class="bx bx-list-ol"></i> </h5>
+                            </div>
+                            <p class="pt-2 m-0 small">Track Order</p>
+                        </a>
+                    </div>
+                    <div class="text-center">
+                        <a href="#">
+                            <div class="bg-success text-white rounded-pill icon-sm m-auto">
+                                <h5 class="text-white m-0"> <i class="bx bx-plus"></i> </h5>
+                            </div>
+                            <p class="pt-2 m-0 small">New Order</span>
+                            </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="p-3">
+            <h6 class="fw-bold">Quick Actions</h6>
+            <div class="mb-3 rounded-3 bg-white shadow p-3 border">
+                <div class="container-fluid">
+                    <ul class="nav d-flex justify-content-between " id="iconbar">
+                        <li><a class="text-center color-1" href="#"><i class="bx bx-tag fa-5x"></i> <br>Tags</a>
+                        </li>
+                        <li><a class="text-center color-2" href="#"><i class="bx bx-bookmark fa-5x"></i>
+                                <br>Tasks</a>
+                        </li>
+                        <li><a class="text-center color-3" href="#"><i class="bx bx-camera fa-5x"></i>
+                                <br>Photos</a>
+                        </li>
+                        <li><a class="text-center color-5" href="#"><i class="bx bx-music fa-5x"></i> <br>Tunes</a>
+                        </li>
+                        <li><a class="text-center color-6" href="#"><i class="bx bx-book fa-5x"></i> <br>Books</a>
+                        </li>
+                        <li><a class="text-center color-7" href="#"><i class="fa fa-film fa-5x"></i> <br>Videos</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        
+        {{-- 
+        <div>
+            @foreach ($customers as $cus)
+                <a href="/staff/customer/{{ $cus->id }}" class="link-dark">
+                    <div
+                        class="bg-white rounded-3 shadow d-flex align-items-center justify-content-between p-3 border border mb-2">
+                        <div>
+                            <h6 class="mb-1"> {{ $cus->name }} </h6>
+                            <p class="mb-1 text-muted small">Added {{ date('j M, Y H:i a', strtotime($cus->created_at)) }}
+                                | by
+                                {{ $cus->user->name }} </p>
+                            <p class="fw-bold text-success small m-0">Active</p>
+                        </div>
+                        <img src="{{ asset($cus->photo) }}" alt="" class="img-fluid rounded-pill profile">
+                    </div>
+                </a>
+            @endforeach
+        </div> --}}
+
+
+    </div>
 @endsection
 
 

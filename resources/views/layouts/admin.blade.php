@@ -12,7 +12,7 @@
     <!-- Page Title Here -->
     <title>{{ env('APP_NAME') }}</title>
 
-    <link rel="shortcut icon" type="image/png" href="{{ asset('admin/images/favicon.png') }}">
+    <link rel="icon" href="{{asset('favicon.png')}}" type="image/png">
     <link href="{{ asset('admin/vendor/wow-master/css/libs/animate.css') }}" rel="stylesheet">
     {{-- <link href="{{ asset('admin/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet"> --}}
     <link href="{{ asset('admin/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">

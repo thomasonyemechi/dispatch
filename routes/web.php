@@ -52,10 +52,7 @@ Route::group(['middleware' => []], function () {
         Route::get('/staff-list', [AdminController::class, 'viewAllStaff']);
         Route::get('/staff/{staff_id}', [AdminController::class, 'staffProfileIndex']);
         Route::post('/add-staff', [StaffController::class, 'addStaff']);
-
-
         Route::get('/dashboard', [AdminController::class, 'dashboardIndex']);
-
     });
 
     Route::get('/login', function () {
@@ -66,6 +63,7 @@ Route::group(['middleware' => []], function () {
         Route::get('/orders', 'viewOrders')->name('view-orders');
         Route::match(["GET", "POST"], '/logout', [AuthController::class, 'customerLogout'])->name('logout');
         Route::get('/past-orders', 'viewAllPastOrders')->name('past-orders');
+        Route::get('/profile', 'myProfile')->name('my-profile');
     });
 
     Route::group(['prefix' => '/staff', 'as' => 'staff.', 'middleware' => ['auth', 'marketer']], function () {

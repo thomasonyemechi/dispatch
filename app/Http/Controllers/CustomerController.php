@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
@@ -19,6 +20,12 @@ class CustomerController extends Controller
     {
         $customer = Customer::findorfail($customer_id);
         return view('other.customers.customer-profile', compact(['customer']));
+    }
+
+    function myProfile()
+    {
+        $customer =  Auth::guard('customers')->user();
+        return view('other.customers.my-profile', compact(['customer']));
     }
 
     function customerList()
