@@ -23,9 +23,8 @@ class OrderController extends Controller
     public function createOrder(Request $request)
     {
         Validator::make($request->all(), [
-            'phone' => ['required', 'string', 'exists:customers,phone'],
+            'phone' => ['required', 'string'],
             'service_name' => ['required', 'string'],
-            'designer' => ['exists:users,id,role,graphics', 'int'],
             'receiver_phone' => ['required', 'string', 'min:11', 'max:14'],
             'receiver_address' => ['required', 'string'],
             'receiving_date' => ['required', 'date'],
@@ -33,10 +32,6 @@ class OrderController extends Controller
             'advance_paid' => ['required', 'int'],
         ], [
             'phone.required' => 'Customer phone number is required',
-            'phone.exists' => 'Customer phone number is not valid',
-            'designer.exists' => 'Designer is not valid',
-            'designer.int' => 'Designer is not valid',
-            'designer.required' => 'Designer is required',
             'receiver_phone.required' => 'Receiver phone number is required',
             'receiver_phone.min' => 'Receiver phone number is not valid',
             'receiver_phone.max' => 'Receiver phone number is not valid',
@@ -57,11 +52,17 @@ class OrderController extends Controller
                 }
             }
 
-            $customer = Customer::where('phone', $request->phone)->firstOrFail();
+            $customer = Customer::updateOrCreate([
+                'phone', $request->phone
+            ], [
+                'name' => $request->name ?? 'Customer '.$request->phone,
+                'address' => $request->address ?? 'null',
+                'email' => $request->email ?? 'dummy_'.$request->phone.'@gmail.com',
+                'created_by' => auth()->user()->id
+            ]);
 
             Order::query()->create([
                 'customer_id' => $customer->id,
-                'designer_id' => $request->designer,
                 'service_name' => $request->service_name,
                 'files' => json_encode($fileNames),
                 'receiver_address' => $request->receiver_address,
@@ -71,6 +72,11 @@ class OrderController extends Controller
                 'receiving_date' => $request->receiving_date,
                 'created_by' => auth()->user()->id,
             ]);
+
+            $message = 'Congratulations! Your order '.$request->service_name.' of ₦'.number_format($request->total_price).').
+            has been created. follow to track your order Thank you for your continued patronage and support! ';
+
+            $this->sendSms($message,$request->phone);
 
         } catch (\Exception $exception) {
             \Log::emergency("File: " . $exception->getFile() . " Line: " . $exception->getLine() . " Message: " . $exception->getMessage());
@@ -100,11 +106,11 @@ class OrderController extends Controller
     }
 
 
-    function updateDispatchRider(Request $request) 
+    function updateDispatchRider(Request $request)
     {
 
 
-        Validator::make($request->all(),[
+        Validator::make($request->all(), [
             'rider_id' => 'required|integer|exists:users,id',
             'order_id' => 'required|integer|exists:orders,id'
         ])->validate();

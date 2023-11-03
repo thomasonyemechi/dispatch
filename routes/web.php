@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DispatchRiderController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SmsController;
 use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,10 @@ Route::group(['middleware' => []], function () {
         }
         return redirect('/login');
     });
+
+
+    // send sms
+    Route::get('/send-message', [SmsController::class, 'sendSms']);
 
 
 
