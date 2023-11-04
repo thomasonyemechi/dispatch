@@ -29,7 +29,7 @@
             @csrf
             <div class="vh-100 my-auto overflow-auto p-3">
 
-                <div class="mb-3 rounded-3 bg-white shadow p-3 border">
+                <div class="mb-3 rounded-3 bg-white shadow p-3 customer-details border">
                     <h6 class="">Customer Details</h6>
 
 
@@ -39,17 +39,54 @@
                         <div class="input-group border-bottom">
                             <span class="input-group-text bg-transparent rounded-0 border-0 text-muted px-0"
                                 id="basic-addon1"><i class="bx bxs-phone bx-sm"></i></span>
-                            <input type="text" class="form-control bg-transparent border-0 rounded-0"
-                                placeholder=" 09000000000" name="phone" value="{{ old('phone') }}"
-                                aria-describedby="basic-addon1">
+                            <input type="text" class="form-control bg-transparent border-0 rounded-0" placeholder=" "
+                                name="phone" value="{{ old('phone') }}" aria-describedby="basic-addon1">
 
                         </div>
 
                         @error('phone')
                             <i class="text-danger ">{{ $message }} </i>
                         @enderror
-                        <i class="phone_error"></i>
+                        <i class="phone_error" style="margin-top: 10px !important" ></i>
                     </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-muted mb-1 small">Customer Name </label>
+                        <div class="input-group border-bottom">
+                            <span class="input-group-text bg-transparent rounded-0 border-0 text-muted px-0"
+                                id="basic-addon1"><i class="bx bxs-user bx-sm"></i></span>
+                            <input type="text" class="form-control bg-transparent border-0 rounded-0" placeholder=""
+                                name="name" value="{{ old('name') }}" autocomplete="cc-number" aria-describedby="basic-addon1">
+                        </div>
+                        @error('name')
+                            <i class="text-danger ">{{ $message }} </i>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted mb-1 small">Customer Email </label>
+                        <div class="input-group border-bottom">
+                            <span class="input-group-text bg-transparent rounded-0 border-0 text-muted px-0"
+                                id="basic-addon1"><i class="bx bx-mail-send bx-sm"></i></span>
+                            <input type="text" class="form-control bg-transparent border-0 rounded-0" placeholder=""
+                                name="email" value="{{ old('email') }}" autocomplete="cc-number" aria-describedby="basic-addon1">
+                        </div>
+                        @error('email')
+                            <i class="text-danger ">{{ $message }} </i>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted mb-1 small">Customer Address </label>
+                        <div class="input-group border-bottom">
+                            <span class="input-group-text bg-transparent rounded-0 border-0 text-muted px-0"
+                                id="basic-addon1"><i class="bx bx-current-location bx-sm"></i></span>
+                            <textarea cols="2" type="text" class="form-control bg-transparent border-0 rounded-0" placeholder=""
+                                name="customer_address" autocomplete="cc-number" aria-describedby="basic-addon1">{{ old('customer_address') }}</textarea>
+                        </div>
+                        @error('customer_address')
+                            <i class="text-danger ">{{ $message }} </i>
+                        @enderror
+                    </div>
+
                 </div>
 
 
@@ -63,7 +100,7 @@
                             <span class="input-group-text bg-transparent rounded-0 border-0 text-muted px-0"
                                 id="basic-addon1"><i class="bx bxs-note bx-sm"></i></span>
                             <input type="text" class="form-control bg-transparent border-0 rounded-0"
-                                placeholder="Explain what this customer wants" name="service_name"
+                                placeholder="" name="service_name"
                                 value="{{ old('service_name') }}" aria-describedby="basic-addon1">
 
                         </div>
@@ -95,9 +132,9 @@
                             </label>
                             <div class="input-group border-bottom">
                                 <span class="input-group-text bg-transparent rounded-0 border-0 text-muted px-0"
-                                    id="basic-addon1"><i class="bx bxs-diamond bx-sm"></i></span>
+                                    id="basic-addon1"><i class="bx bx-dollar bx-sm"></i></span>
                                 <input type="number" class="form-control bg-transparent border-0 rounded-0"
-                                    placeholder="09000000000" name="total_price" value="{{ old('total_price') }}"
+                                    placeholder="" name="total_price" value="{{ old('total_price') }}"
                                     aria-describedby="basic-addon1">
                             </div>
                             @error('total_price')
@@ -107,13 +144,14 @@
 
 
                         <div class="col-6">
-                            <label class="form-label text-muted mb-1 small">Advance Paid <span class="text-danger">*</span>
+                            <label class="form-label text-muted mb-1 small">Advance Paid <span
+                                    class="text-danger">*</span>
                             </label>
                             <div class="input-group border-bottom">
                                 <span class="input-group-text bg-transparent rounded-0 border-0 text-muted px-0"
-                                    id="basic-addon1"><i class="bx bxs-diamond bx-sm"></i></span>
+                                    id="basic-addon1"><i class="bx bx-dollar bx-sm"></i></span>
                                 <input type="text" class="form-control bg-transparent border-0 rounded-0"
-                                    placeholder="09000000000" name="advance_paid" value="{{ old('advance_paid') }}"
+                                    placeholder="" name="advance_paid" value="{{ old('advance_paid') }}"
                                     aria-describedby="basic-addon1">
                             </div>
                             @error('advance_paid')
@@ -133,8 +171,8 @@
                         <div class="input-group border-bottom">
                             <span class="input-group-text bg-transparent rounded-0 border-0 text-muted px-0"
                                 id="basic-addon1"><i class="bx bxs-phone bx-sm"></i></span>
-                            <input type="text" class="form-control bg-transparent border-0 rounded-0"
-                                placeholder=" 09000000000" name="receiver_phone" value="{{ old('receiver_phone') }}"
+                            <input type="text" class="form-control bg-transparent border-0 rounded-0" placeholder=""
+                                name="receiver_phone" value="{{ old('receiver_phone') }}"
                                 aria-describedby="basic-addon1">
 
                         </div>
@@ -153,7 +191,7 @@
                             <span class="input-group-text bg-transparent rounded-0 border-0 text-muted px-0"
                                 id="basic-addon1"><i class="bx bxs-location-plus bx-sm"></i></span>
                             <input type="text" class="form-control bg-transparent border-0 rounded-0"
-                                placeholder="09000000000" name="receiver_address" value="{{ old('receiver_address') }}"
+                                name="receiver_address" value="{{ old('receiver_address') }}"
                                 aria-describedby="basic-addon1">
                         </div>
                         @error('receiver_address')
@@ -201,6 +239,8 @@
                 form = $('#order-form');
 
                 console.log(phone);
+                det = $('.customer-details')
+
 
                 $.ajax({
                     method: 'post',
@@ -216,12 +256,21 @@
                     err.html(`Customer Validated <b>${res.customer.name}</b> `);
                     form.find('button').removeAttr('disabled');
 
+                    det.find('input[name="email"]').val(`${res.customer.email}`)
+                    det.find('input[name="name"]').val(`${res.customer.name}`)
+                    det.find('textarea[name="customer_address"]').html(`${res.customer.address}`)
+
                 }).fail(function(res) {
                     console.log(res);
-                    form.find('button').attr('disabled', 'disabled');
                     err.removeClass('text-success');
-                    err.addClass('text-danger');
-                    err.html('Customer with phone number does not exist');
+                    err.addClass('text-info');
+                    err.html('Customer with phone number does not exist, New profile will be created ');
+
+
+                    det.find('input[name="email"]').val(``)
+                    det.find('input[name="name"]').val(``)
+                    det.find('textarea[name="customer_address"]').html(``)
+
                 })
             })
         })

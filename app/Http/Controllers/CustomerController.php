@@ -44,7 +44,6 @@ class CustomerController extends Controller
             'email' => '',
         ])->validate();
 
-
         Customer::create([
             'name' => $request->name,
             'phone' => $request->phone,

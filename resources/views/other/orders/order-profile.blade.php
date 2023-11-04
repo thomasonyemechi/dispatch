@@ -27,10 +27,10 @@
 
 
     <div class="vh-100 my-auto overflow-auto">
-
         <div class="bg-white shadow p-3 mb-2 profile-detail border osahan-card">
             <div class="osahan-card-left">
-                <img src="{{ asset($order->customer->photo) }}" alt class="img-fluid shadow rounded-lg profile-img">
+                <img src="{{ asset($order->customer->photo) }}" alt class="img-fluid shadow rounded-lg profile-img"
+                    style="object-fit: cover">
                 <div class="mt-2 gap-2 d-flex justify-content-center">
                     <div class="light-bg-success rounded-pill text-center badge p-1">active</div>
                 </div>
@@ -48,14 +48,6 @@
             </div>
         </div>
 
-        <div class="mb-2 bg-white shadow p-3 border">
-            <h6 class="fw-bold">Designer</h6>
-            <div class="d-flex align-items-center justify-content-between">
-                <h6 class="m-0 text-muted small">Assigned</h6>
-                <h6 class="fw-bold text-primary m-0 small">{{ $order->designer->name }}</h6>
-            </div>
-        </div>
-
         @php
             $statusInt = $order->status;
             $enumStatus = OrderStatus::fromInt($statusInt);
@@ -69,7 +61,8 @@
                 price: &#8358;{{ number_format($order->total_price, 2, '.', ',') }}</p>
             <p class="mb-1 text-muted small">advance
                 paid: &#8358;{{ number_format($order->advance_paid, 2, '.', ',') }}</p>
-            <p class="mb-1 text-muted small">no of files: {{ count(json_decode($order->files)) }}</p>
+
+            <a href="javascript:;" class="showFilesModal fw-bold"> View Files</a>
         </div>
         <div class="mb-2 bg-white shadow p-3 border">
             <h6 class="fw-bold">Receiver's Information</h6>
@@ -80,46 +73,66 @@
 
 
 
-
-        <div class="mb-2 bg-white shadow p-3 border">
-            @if ($order->dispatcher)
-                <div class="d-flex">
-                    <img src="{{ asset('assets/img/profile/profile-2.jpg') }}" alt=""
-                        class="img-fluid shadow me-2 rounded-pill profile-lg">
-                    <div class="mt-2">
-                        <h6 class="fw-bold"> {{ $order->dispatcher->name }} </h6>
-                        <div class="badge bg-info">Dispatch Rider</div>
-                        <a href="" class="d-block">Re-assign rider</a>
+        @if ($order->designer)
+            <div class="mb-2 bg-white shadow p-3 border">
+                <h6 class="fw-bold mb-1">Designer Info</h6>
+                <p class="text-warning">Ensure order design is properly created by designer</p>
+                <div class="d-flex justify-content-between ">
+                    <div class="d-flex">
+                        <img src="{{ asset($order->designer->photo) }}" alt=""
+                            class="img-fluid shadow me-2 rounded-pill" style="width:55px; height: 55px; object-fit:cover;">
+                        <div class="mt-1">
+                            <h6 class="fw-bold mb-1 fs-5"> {{ $order->designer->name }} </h6>
+                            <div class="badge bg-info">{{ $order->designer->role }}</div>
+                            <div class="badge bg-secondary">{{ $order->designer->phone }}</div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="float-end mt-1">
+                            <div class="badge  bg-warning">Pending</div>
+                            <a href="javascript:;" class="d-block mt-2 "> <i class="bx bx-bell me-1"></i> <span>Alert</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            @endif
-
-            <hr>
-
-            @if ($order->designer)
-                <div class="d-flex" style="height: 30px">
-                    <img src="{{ asset($order->designer->photo) }}" alt=""
-                        class="img-fluid shadow me-2 rounded-pill profile-lg">
-                    <div class="mt-2">
-                        <h6 class="fw-bold"> {{ $order->designer->name }} </h6>
-                        <div class="badge bg-">Designer</div>
-                        <a href="" class="d-block">Re-assign rider</a>
-                    </div>
-                </div>
-            @endif
-        </div>
-
+            </div>
+        @endif
 
         <div class="text-center px-3">
-            <a href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightEditProfile"
-                aria-controls="offcanvasRightEditProfile"
-                class="btn btn-outline-primary bg-white shadow rounded-3 w-100 px-5 mb-3">Change
-                Status</a>
-
-            <a href="#" data-bs-toggle="offcanvas" data-bs-target="#assignRider" aria-controls="assignRider"
-                class="btn btn-outline-warning bg-white shadow rounded-3 w-100 px-5 mb-3">Assign Dispatch Rider</a>
+            <a href="#" class="btn btn-outline-warning bg-white shadow rounded-3 w-100 px-5 mb-3">Push To Delivery
+                Department</a>
         </div>
     </div>
+
+    <div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex mb-3 justify-content-between ">
+                        <h5 class="modal-title" id="fileModal">Modal title</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+
+                    <div class="">
+                        @foreach (json_decode($order->files) as $file)
+                            <div class="mb-2">
+                                <div class="d-flex justify-content-between rounded bg-light p-2">
+                                    <span class="d-flex"><i class="bx me-1  {{ getExt($file) }} fs-4 fw-bold"> </i>
+                                        <h6 class="mb-0 d-inline mt-1"> {{ $file }} </h6>
+                                    </span> <span><a href="javascript:;"> <i class="bx bx-cloud-download fs-4 fw-bold"></i>
+                                        </a></span>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     {{-- the edit off canvas for changing status --}}
     <div class="offcanvas offcanvas-end bg-lighter border-0 w-100" tabindex="-1" id="offcanvasRightEditProfile"
         aria-labelledby="offcanvasRightEditProfileLabel">
@@ -241,6 +254,15 @@
 
 
         $(function() {
+
+            fileModal = $('#fileModal')
+            // fileModal.modal('show')
+            $('.showFilesModal').on('click', function() {
+                fileModal.modal('show')
+            })
+            fileModal.find('.btn-close').on('click', function() {
+                fileModal.modal('hide');
+            })
 
             // $('#assignRider').canvas('show')
 

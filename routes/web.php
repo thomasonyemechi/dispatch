@@ -42,7 +42,7 @@ Route::group(['middleware' => []], function () {
 
 
     // send sms
-    Route::get('/send-message', [SmsController::class, 'sendSms']);
+    Route::get('/send-message', [SmsController::class, 'sendNow']);
 
 
 
