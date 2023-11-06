@@ -54,6 +54,11 @@ class Order extends Model
 
     }
 
+    function log()
+    {
+        return $this->hasMany(OrderLog::class);
+    }
+
     
     public function getTimeLeftAttribute()
     {
@@ -64,4 +69,10 @@ class Order extends Model
             'syntax' => CarbonInterface::DIFF_ABSOLUTE
         ]);
     }
+
+
+    // function completeDesign()
+    // {
+    //     return OrderLog::where(['department' => 'designer', 'status' => 'completed'])->frist();
+    // }
 }

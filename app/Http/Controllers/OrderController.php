@@ -8,7 +8,6 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -92,7 +91,7 @@ class OrderController extends Controller
 
     public function viewOrders()
     {
-        $orders = Order::with(relations: ['customer', 'designer', 'staff'])->orderBy('id', 'desc')->paginate(25);
+        $orders = Order::with(relations: ['customer', 'designer', 'staff'])->where(['created_by' => auth()->user()->id ])->orderBy('id', 'desc')->paginate(25);
         return view('other.orders.orders-list', compact('orders'));
     }
 

@@ -12,6 +12,7 @@ class AuthController extends Controller
 {
     function staffLogin(Request $request)
     {
+
         Validator::make($request->all(), [
             'email' => 'required|email|exists:users,email',
             'password' => 'required|min:6'
@@ -24,8 +25,10 @@ class AuthController extends Controller
                 return redirect('/staff/dashboard')->with('success', 'Welcome Back');
             }elseif (auth()->user()->role == 'dispatch') {
                 return redirect('/dispatch/dashboard')->with('success', 'Welcome Back');
+            }elseif (auth()->user()->role == 'designer') {
+                return redirect('/designer/dashboard')->with('success', 'Welcome Back');
             }
-
+            
             abort(404);
         }
 

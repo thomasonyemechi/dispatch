@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DesignerController;
 use App\Http\Controllers\DispatchRiderController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SmsController;
@@ -101,5 +102,13 @@ Route::group(['middleware' => []], function () {
 
     Route::group(['prefix' => '/dispatch', 'as' => 'dispatch.', 'middleware' => ['auth', 'dispatch_rider']], function () {
         Route::get('/dashboard', [DispatchRiderController::class, 'Index']);
+    });
+
+
+    Route::group(['prefix' => '/designer', 'as' => 'designer.', ], function () {
+        Route::get('/dashboard', [DesignerController::class, 'Index']);
+        Route::get('/m/{id}', [DesignerController::class, 'allMarketerDesign']);
+        Route::post('/select_design', [DesignerController::class, 'selectDesign']);
+        Route::post('/complete_design', [DesignerController::class, 'completeDesign']);
     });
 });

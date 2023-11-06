@@ -14,6 +14,11 @@ class SmsController extends Controller
     function sendNow(Request $request)
     {
 
+
+        $order = Order::with(['log.complete_design'])->where(['id' => 400])->first();
+
+        return $order;
+
         $names = [
             'Jonh', 'Ade', 'Fela', 'Kuti', 'Daniel', 'Doll', 'Phil', 'Den', 'Jade', 'Smith', 'Fel', 'Davon', 
             'baz', 'Bren', 'Fish', 'Gota', 'Gde', 'dish', 'fat', 'mint', 'pit', 'dash', 'aremo', 'fendi', 'buggati', 
@@ -21,7 +26,7 @@ class SmsController extends Controller
         ];
 
         $roles = [
-            'administrator'
+            'dispatch'
         ];
 
 
@@ -52,26 +57,27 @@ class SmsController extends Controller
         A5 Flyers (Double Sided),
         A6 Flyers (Single Sided)";
 
-        $services = explode(',', $services);
+        $services = explode(',' , $services);
 
 
         $c_name = count($names);
         $c_roles = count($roles);
         $c_services = count($services);
 
-        for($i=0; $i <= 1; $i++)
+
+        for($i=0; $i <= 53; $i++)
         {
-            $phone = fake()->phoneNumber();
+            $phone = Customer::inrandomorder()->first()->phone; // fake()->phoneNumber();
             $name = fake()->name();
             $role = $roles[rand(0, $c_roles-1)];
-            $email =  strtolower($name.'_'.$role.'@dispatch.com') ;
+            $email =  fake()->email();
 
 
             //create customers and orders
             // $num = rand(1,5); $ser = [];
             // for($j=0; $j <= $num; $j++)
             // {
-            //     $ser[] = $services[rand(0, $c_services-1)];
+            //     $ser[] = trim($services[rand(0, $c_services-1)]);
             // }
 
             // $service_name = implode(',', $ser);
@@ -105,13 +111,15 @@ class SmsController extends Controller
 
 
             //create staffs
-            User::create([
-                'name' => $name,
-                'role' => $role,
-                'email' => $email,
-                'phone' => $phone,
-                'password' => Hash::make($phone),
-            ]);
+            // User::create([
+            //     'name' => $name,
+            //     'role' => $role,
+            //     'email' => $email,
+            //     'phone' => $phone,
+            //     'password' => Hash::make($phone),
+            //     'address' => fake()->address(),
+            // ]);
+
         }
 
 

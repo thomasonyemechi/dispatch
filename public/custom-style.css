@@ -93,3 +93,13 @@
 .color-7 {
     color: #00FFFF;
 }
+
+
+
+
+.order-group {
+    overflow-y:scroll; 
+    height:400px;
+    background:rgb(238, 238, 238);
+    border-radius: 8px;
+}
