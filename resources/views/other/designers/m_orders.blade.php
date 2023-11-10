@@ -66,13 +66,18 @@
                             </form>
                         @endif
 
+                        @php
+                            $completed = completeDesign($order->id);
+                        @endphp
 
-                        @if ($order->log ?? 0)
-
-
+                        @if ($completed)
+                            <p class="text-success mt-0 mb-0 small">Order design has been completed by
+                                <span>{{ $order->designer->name }} <a href="javascript:;" data-files='{{$completed->files}}'  class=" view_order_design fw-bold">See Design</a>
+                                </span>
+                            </p>
                         @else
                             @if ($order->designer_id)
-                                <p class="text-info mt-0 mb-0 small">Design was sslected by <span
+                                <p class="text-info mt-0 mb-0 small">Design was slected by <span
                                         class="fw-bold">{{ $order->designer->name }}</span> </p>
                                 @if ($order->designer_id == auth()->user()->id)
                                     <button class="btn btn-outline-success mark-complete opacity-75 btn-sm py-0"
@@ -81,6 +86,7 @@
                                 @endif
                             @endif
                         @endif
+
 
 
                     </div>
@@ -157,6 +163,34 @@
             </div>
         </div>
     </div>
+
+
+    <div class="modal fade" id="orderDesign" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex mb-3 justify-content-between ">
+                        <h5 class="modal-title medium">Order Design</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+
+                    <div class="m-body">
+                        <div class="alert alert-success">
+                            Congratulations on completing this order designs
+                        </div>
+
+                        <div class="row" class="designs"  >
+                            <div  >
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 
@@ -166,14 +200,23 @@
 
             ////    //complete modal
 
+            mod = $('#completeModal')
 
             $('.mark-complete').on('click', function() {
                 id = $(this).data('id');
-                mod = $('#completeModal')
                 mod.modal('show');
                 mod.find('input[name="id"]').val(id);
             })
 
+
+            mod.find('.btn-close').on('click', function() {
+                mod.modal('hide');
+            })
+
+
+            $('.view_order_design').on('click', function() {
+
+            })
 
 
             fileModal = $('#fileModal')
@@ -186,6 +229,8 @@
 
                 body = fileModal.find('.m-body');
 
+                body.html(``);
+
                 if (files.length == 0) {
                     body.html(`
                         <div class="alert alert-warning">
@@ -196,6 +241,24 @@
                             </span>
                         </div>
                     `)
+                }else {
+
+
+                    files.forEach(file => {
+                        
+                    body.append(`
+                        <div class="mb-2">
+                            <div class="d-flex justify-content-between rounded bg-light p-2">
+                                <span class="d-flex"><i class="bx me-1 bx-file fs-4 fw-bold"> </i>
+                                    <h6 class="mb-0 d-inline mt-1"> ${file} </h6>
+                                </span> <span><a href="javascript:;"> <i class="bx bx-cloud-download fs-4 fw-bold"></i>
+                                    </a></span>
+                            </div>
+                        </div>
+                    `)  
+                    });
+
+
                 }
 
                 fileModal.modal('show')

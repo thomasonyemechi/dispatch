@@ -32,6 +32,10 @@
 
 
     <div class="vh-100 my-auto overflow-auto p-3">
+
+
+        <a href="/staff/create-order" class="btn mb-2 btn-outline-primary" style="width: 100%" > <i class="bx bx-plus" ></i> Create New Order </a>
+
         @foreach ($orders as $order)
             <a href="/staff/order/{{ $order->id }}" class="link-dark">
                 <div

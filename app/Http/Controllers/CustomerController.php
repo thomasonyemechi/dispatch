@@ -16,6 +16,17 @@ class CustomerController extends Controller
         return view('other.customers.login');
     }
 
+    function orderInfo($order_id)
+    {
+        $order = Order::findorfail($order_id);
+
+        if ($order->customer_id != auth('customers')->user()->id) {
+            abort(404);
+        }
+
+        return view('other.customers.order-info', compact(['order']));
+    }
+
     function customerProfile($customer_id)
     {
         $customer = Customer::findorfail($customer_id);
@@ -30,7 +41,7 @@ class CustomerController extends Controller
 
     function customerList()
     {
-        $customers = Customer::orderby('id', 'desc')->paginate(25);
+        $customers = Customer::where(['created_by' => auth()->user()->id ])->orderby('updated_at', 'desc')->paginate(25);
         return view('other.customers.customer-list', compact(['customers']));
     }
 
@@ -80,7 +91,6 @@ class CustomerController extends Controller
             ->where('customer_id', '=', $customer_id)
             ->whereRaw("STR_TO_DATE(receiving_date, '%Y-%m-%d') < '" . $today->toDateString() . "'")->limit(6)->get();
         return view('other.customers.orders', compact('current_orders', 'past_orders'));
-
     }
 
     public function viewAllPastOrders()
@@ -95,5 +105,4 @@ class CustomerController extends Controller
 
         return view('other.customers.past-orders', compact('past_orders'));
     }
-
 }

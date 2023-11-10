@@ -39,5 +39,8 @@ class Controller extends BaseController
         $sms->update([
             'status' => $res->data->status ?? 'Message was not sent'
         ]);
+
+
+        return $res;
     }
 }

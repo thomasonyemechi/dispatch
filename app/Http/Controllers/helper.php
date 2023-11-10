@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\OrderLog;
+
 function defff()
 {
     return true;
@@ -17,4 +19,11 @@ function getExt($file) {
     }
 
     return $val;
+}
+
+
+function completeDesign($order_id)
+{
+    $log = OrderLog::where(['department' => 'designer', 'status' => 'completed', 'order_id' => $order_id])->first();
+return $log;
 }

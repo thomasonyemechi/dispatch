@@ -22,13 +22,15 @@ class AuthController extends Controller
             if (auth()->user()->role == 'administrator') {
                 return redirect('/admin/dashboard')->with('success', 'Welcome Back');
             } elseif (auth()->user()->role == 'marketer') {
-                return redirect('/staff/dashboard')->with('success', 'Welcome Back');
-            }elseif (auth()->user()->role == 'dispatch') {
+                return redirect('/staff/create-order')->with('success', 'Welcome Back');
+            } elseif (auth()->user()->role == 'dispatch') {
                 return redirect('/dispatch/dashboard')->with('success', 'Welcome Back');
-            }elseif (auth()->user()->role == 'designer') {
+            } elseif (auth()->user()->role == 'designer') {
                 return redirect('/designer/dashboard')->with('success', 'Welcome Back');
+            } elseif (auth()->user()->role == 'delivery') {
+                return redirect('/delivery/dashboard')->with('success', 'Welcome Back');
             }
-            
+
             abort(404);
         }
 

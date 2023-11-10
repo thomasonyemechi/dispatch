@@ -72,7 +72,7 @@ class OrderController extends Controller
             'created_by' => Auth::guard()->user()->id,
         ]);
 
-        $message = 'Congratulations! Your order ' . $request->service_name . ' of ₦' . number_format($request->total_price) . ', has been created. follow to track your order Thank you for your continued patronage and support! ';
+        $message = 'Congratulations! Your order ' . $request->service_name . ' of ₦' . number_format($request->total_price) . ', has been created. follow to track your order. Thank you for your continued patronage and support! ';
         $this->sendSms($message, $request->phone);
 
         } catch (\Exception $exception) {
