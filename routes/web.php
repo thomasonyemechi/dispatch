@@ -7,6 +7,7 @@ use App\Http\Controllers\DispatchRiderController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SmsController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\WebNotificationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -45,7 +46,6 @@ Route::group(['middleware' => []], function () {
     Route::get('/send-message', [SmsController::class, 'sendNow']);
 
 
-
     Route::get('/admin-login', [AdminController::class, 'loginIndex']);
     Route::get('/admin-login', [AdminController::class, 'loginIndex'])->name('login');
     Route::get('/customer-login', [CustomerController::class, 'loginIndex'])->name('customer-login')->middleware('redirect.customer.authenticated');
@@ -57,7 +57,10 @@ Route::group(['middleware' => []], function () {
         Route::get('/staff-list', [AdminController::class, 'viewAllStaff']);
         Route::get('/staff/{staff_id}', [AdminController::class, 'staffProfileIndex']);
         Route::post('/add-staff', [StaffController::class, 'addStaff']);
+
+
         Route::get('/dashboard', [AdminController::class, 'dashboardIndex']);
+
     });
 
     Route::get('/login', function () {
@@ -69,6 +72,12 @@ Route::group(['middleware' => []], function () {
         Route::match(["GET", "POST"], '/logout', [AuthController::class, 'customerLogout'])->name('logout');
         Route::get('/past-orders', 'viewAllPastOrders')->name('past-orders');
         Route::get('/profile', 'myProfile')->name('my-profile');
+        Route::post('/store-token', [WebNotificationController::class, 'storeToken'])->name('store.token');
+        Route::get('/send-web-notification', [WebNotificationController::class, 'sendWebNotification'])->name('send.web-notification');
+//        Route::post('save-subscription', 'saveSubscription');
+        Route::post('check-token', [WebNotificationController::class, 'checkToken'])->name('check-token');
+//        Route::post('delete-subscription', 'deleteSubscription');
+
     });
 
     Route::group(['prefix' => '/staff', 'as' => 'staff.', 'middleware' => ['auth', 'marketer']], function () {

@@ -99,11 +99,12 @@
                     </a>
                 @endforeach
             </div>
-        @else
+        @elseif($current_orders->count() == 0 && $past_orders->count() == 0)
             <div class="mt-5 d-flex justify-content-center align-items-center">
                 <div class="text-center" style="height: 16rem; width: 17rem;">
                     <img src="{{ asset('assets/img/errors/empty_cart.svg') }}" alt="empty" class="img-fluid">
-                    <p class="text-center text-muted mt-3 font-900">Oops... No order has been created under this account</p>
+                    <p class="text-center text-muted mt-3 font-900">Oops... No order has been created under this
+                        account</p>
                 </div>
             </div>
         @endif

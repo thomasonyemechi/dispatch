@@ -15,7 +15,160 @@
     <link rel="stylesheet" href="{{ asset('assets/vender/sidebar/demo.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @laravelPWA
+
+    @if(auth()->guard('customers')->check())
+        <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
+        <script>
+            const firebaseConfig = {
+                apiKey: "AIzaSyBPUu2gtAXh0PMJxU_d7LqzyP8zqz5WwvQ",
+                authDomain: "uniquedispatch-b5f9c.firebaseapp.com",
+                projectId: "uniquedispatch-b5f9c",
+                storageBucket: "uniquedispatch-b5f9c.appspot.com",
+                messagingSenderId: "199811555603",
+                appId: "1:199811555603:web:dde058c0067b1e9c1afae6",
+                measurementId: "G-2WKBMT7CB7"
+            };
+            firebase.initializeApp(firebaseConfig);
+            const messaging = firebase.messaging();
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            // Check if the browser supports the Notification API
+            if ('Notification' in window) {
+                startFCM()
+            }
+
+            function startFCM() {
+                const userId = "{{auth()->guard('customers')->user()->id}}"; // Get the user's identifier (e.g., user ID)
+                const storedToken = localStorage.getItem(`fcmToken_${userId}`); // Check if user-specific token is already stored
+                if (storedToken) {
+                    // Token is already stored for the user, no need to generate it again
+                    console.log('Using stored FCM token for user:', userId, storedToken);
+                } else {
+                    messaging
+                        .requestPermission()
+                        .then(function () {
+                            return messaging.getToken()
+                        })
+                        .then(function (response) {
+                            localStorage.setItem(`fcmToken_${userId}`, response);
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                }
+                            });
+                            $.ajax({
+                                url: '{{ route("customer.store.token") }}',
+                                type: 'POST',
+                                data: {
+                                    token: response
+                                },
+                                dataType: 'JSON',
+                                success: function (response) {
+                                    console.log('Token stored.');
+                                },
+                                error: function (error) {
+                                    console.log(error);
+                                },
+                            });
+
+                        }).catch(function (error) {
+                        console.log(error);
+                    });
+                }
+            }
+
+            messaging.onMessage(function (payload) {
+                const title = payload.notification.title;
+                const options = {
+                    body: payload.notification.body,
+                    icon: payload.notification.icon,
+                };
+                new Notification(title, options);
+            });
+
+            // function requestPermission() {
+            //     Notification.requestPermission().then(function (permission) {
+            //         if (permission === 'granted') {
+            //             console.log('Notification permission granted.');
+            //             navigator.serviceWorker.ready.then((sw) => {
+            //                 sw.pushManager.subscribe({
+            //                     userVisibleOnly: true,
+            //                     applicationServerKey: "BJDW9HOwrQERdLDMpsRsf241bvX-KGe04dddndEKgPJfXrD6NzGuj-0jeF5X3Xb66lza_JE6IeuSQn2B1vKQqoo"
+            //                 }).then((subscription) => {
+            //                     fetch("/customer/save-subscription", {
+            //                         method: "POST",
+            //                         headers: {
+            //                             "Content-Type": "application/json",
+            //                             'X-CSRF-TOKEN': csrfToken,
+            //                         },
+            //                         body: JSON.stringify(subscription)
+            //                     }).then((res) => {
+            //                         console.log(res)
+            //                     }).catch((err) => {
+            //                         console.log(err)
+            //                     })
+            //                 }).catch((err) => {
+            //                     console.log(err)
+            //                 })
+            //             })
+            //         } else {
+            //             console.log('Unable to get permission to notify.');
+            //         }
+            //     });
+            // }
+            //
+            function tokenExists() {
+                return fetch("/customer/check-token", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        'X-CSRF-TOKEN': csrfToken,
+                    },
+                })
+                    .then((response) => {
+                        if (response.ok) {
+                            return response.json().then((data) => {
+                                return data.exists; // true if subscription exists, false if it doesn't
+                            });
+                        } else {
+                            console.error("Error checking token:", response.statusText);
+                            return false; // Handle the error as needed
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error checking token:", error);
+                        return false; // Handle the error as needed
+                    });
+            }
+
+            //
+            //
+            // function deleteSubscription(userIdentifier) {
+            //     fetch("/customer/delete-subscription", {
+            //         method: "POST",
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //             'X-CSRF-TOKEN': csrfToken,
+            //         },
+            //         body: JSON.stringify({userIdentifier})
+            //     })
+            //         .then((res) => {
+            //             if (res.ok) {
+            //                 console.log("Subscription deleted successfully.");
+            //             } else {
+            //                 console.log("Error deleting subscription:", res.statusText);
+            //                 // Handle the error as needed, and consider whether to call requestPermission() here.
+            //             }
+            //         })
+            //         .catch((err) => {
+            //             console.log("Error deleting subscription:", err);
+            //             // Handle the error as needed, and consider whether to call requestPermission() here.
+            //         });
+            // }
+
+        </script>
+    @endif
 </head>
 
 <body>
@@ -43,7 +196,6 @@
     @if (Auth::guard('customers')->user())
         @include('other.customers.customer-footer')
     @endif
-
 
 
     <nav id="main-nav">

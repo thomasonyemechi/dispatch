@@ -289,6 +289,7 @@
     </script>
 @endif
 
+
 <script>
     $(function () {
         setTimeout(() => {
@@ -296,7 +297,71 @@
         }, 5000);
     })
 </script>
+{{--<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>--}}
+{{--<script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-analytics.js"></script>--}}
+{{--<script>--}}
+
+{{--    // Your web app's Firebase configuration--}}
+{{--    // For Firebase JS SDK v7.20.0 and later, measurementId is optional--}}
+{{--    const firebaseConfig = {--}}
+{{--        apiKey: "AIzaSyBPUu2gtAXh0PMJxU_d7LqzyP8zqz5WwvQ",--}}
+{{--        authDomain: "uniquedispatch-b5f9c.firebaseapp.com",--}}
+{{--        projectId: "uniquedispatch-b5f9c",--}}
+{{--        storageBucket: "uniquedispatch-b5f9c.appspot.com",--}}
+{{--        messagingSenderId: "199811555603",--}}
+{{--        appId: "1:199811555603:web:dde058c0067b1e9c1afae6",--}}
+{{--        measurementId: "G-2WKBMT7CB7"--}}
+{{--    };--}}
+
+{{--    // Initialize Firebase--}}
+{{--    const app = firebase.initializeApp(firebaseConfig);--}}
+
+{{--    const messaging = firebase.messaging();--}}
+{{--    messaging.useServiceWorker('/serviceworker.js');--}}
+
+{{--    function initFirebaseMessagingRegistration() {--}}
+{{--        messaging.requestPermission().then(function () {--}}
+{{--            return messaging.getToken()--}}
+{{--        }).then(function (response) {--}}
+{{--            $.ajaxSetup({--}}
+{{--                headers: {--}}
+{{--                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+{{--                }--}}
+{{--            });--}}
+
+{{--            $.ajax({--}}
+{{--                url: '{{ route("store.token") }}',--}}
+{{--                type: 'POST',--}}
+{{--                data: {--}}
+{{--                    token: response--}}
+{{--                },--}}
+{{--                dataType: 'JSON',--}}
+{{--                success: function (response) {--}}
+{{--                    alert('Token stored.');--}}
+{{--                },--}}
+{{--                error: function (error) {--}}
+{{--                    alert(error);--}}
+{{--                },--}}
+{{--            });--}}
+{{--        }).catch(function (error) {--}}
+{{--            alert(error);--}}
+{{--        });--}}
+{{--    }--}}
+
+{{--    initFirebaseMessagingRegistration();--}}
+
+{{--    messaging.onMessage(function (payload) {--}}
+{{--        const title = payload.notification.title;--}}
+{{--        const options = {--}}
+{{--            body: payload.notification.body,--}}
+{{--            icon: payload.notification.icon,--}}
+{{--        };--}}
+
+{{--        new Notification(title, options);--}}
+{{--    });--}}
+{{--</script>--}}
 @stack('scripts')
+
 </body>
 
 </html>

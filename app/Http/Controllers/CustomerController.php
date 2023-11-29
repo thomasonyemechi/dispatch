@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\PushSubscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,7 @@ class CustomerController extends Controller
 
     function myProfile()
     {
-        $customer =  Auth::guard('customers')->user();
+        $customer = Auth::guard('customers')->user();
         return view('other.customers.my-profile', compact(['customer']));
     }
 
@@ -44,7 +45,7 @@ class CustomerController extends Controller
             'email' => '',
         ])->validate();
 
-        Customer::create([
+        $customer = Customer::create([
             'name' => $request->name,
             'phone' => $request->phone,
             'address' => $request->address,
@@ -95,5 +96,44 @@ class CustomerController extends Controller
 
         return view('other.customers.past-orders', compact('past_orders'));
     }
+
+    public function saveSubscription(Request $request)
+    {
+        $customer = Auth::guard('customers')->user();
+
+        $pushSubscription = $customer->pushSubscriptions()->updateOrCreate([
+            'customer_id' => $customer->id,
+        ], [
+            'endpoint' => $request->input('endpoint'),
+            'keys_p256dh' => $request->input('keys.p256dh'),
+            'keys_auth' => $request->input('keys.auth'),
+        ]);
+
+        $customer->notify(new \App\Notifications\OrderStatusChangedNotification("Welcome to unique dispatch", "You will get all notifications"));
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+    public function deleteSubscription(Request $request)
+    {
+        $userIdentifier = $request->input('userIdentifier'); // Get the user identifier from the request
+
+        // Find and delete the push subscription record based on the user identifier
+        PushSubscription::query()->where('user_identifier', $userIdentifier)->delete();
+
+        return response()->json(['message' => 'Subscription deleted']);
+    }
+
+    public function checkSubscription(Request $request)
+    {
+        $userIdentifier = $request->input('userIdentifier'); // Get the user identifier from the request
+
+        // Check if a subscription exists based on the user identifier
+        $subscriptionExists = PushSubscription::query()->where('user_identifier', $userIdentifier)->exists();
+
+        return response()->json(['exists' => $subscriptionExists]);
+    }
+
 
 }

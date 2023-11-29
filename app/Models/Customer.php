@@ -7,11 +7,22 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Notifications\Notifiable;
+use NotificationChannels\WebPush\HasPushSubscriptions;
 
 class Customer extends Authenticatable implements AuthenticatableContract
 
 {
-    use HasFactory;
+    use HasFactory, Notifiable, HasPushSubscriptions;
+
+    protected $fillable = [
+        'name',
+        'phone',
+        'address',
+        'email',
+        'created_by',
+        'device_key',
+    ];
 
     protected $guarded;
 
