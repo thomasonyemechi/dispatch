@@ -46,7 +46,7 @@
                 <h5 class="mb-3">Current</h5>
                 <div>
                     @foreach ($current_orders as $order)
-                        <a href="/staff/customer/{{ $order->id }}" class="link-dark">
+                        <a href="/customer/order/{{ $order->id }}" class="link-dark">
                             <div
                                 class="bg-white rounded-3 shadow d-flex align-items-center justify-content-between p-3 border border mb-2">
                                 <div>
@@ -99,12 +99,11 @@
                     </a>
                 @endforeach
             </div>
-        @elseif($current_orders->count() == 0 && $past_orders->count() == 0)
+        @else
             <div class="mt-5 d-flex justify-content-center align-items-center">
                 <div class="text-center" style="height: 16rem; width: 17rem;">
                     <img src="{{ asset('assets/img/errors/empty_cart.svg') }}" alt="empty" class="img-fluid">
-                    <p class="text-center text-muted mt-3 font-900">Oops... No order has been created under this
-                        account</p>
+                    <p class="text-center text-muted mt-3 font-900">Oops... No order has been created under this account</p>
                 </div>
             </div>
         @endif

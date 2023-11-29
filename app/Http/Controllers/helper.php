@@ -6,19 +6,19 @@ function defff()
 }
 
 
-function getExt($file)
-{
+function getExt($file) {
     $file = explode('.', $file);
     $ext = $file[1];
     $val = 'bx-file text-primary ';
-    if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg') {
+    if($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' ) {
         $val = 'bx-image text-info ';
-    } elseif ($ext == 'zip' || $ext == 'rar') {
+    }elseif($ext == 'zip' || $ext == 'rar') {
         $val = 'bx-file-blank text-warning';
     }
 
     return $val;
 }
+
 
 function generateUserIdentifier($userId)
 {
@@ -31,4 +31,12 @@ function getCustomerId()
 {
     $customer = \Auth::guard('customers')->user();
     return $customer->id;
+}
+
+
+
+function completeDesign($order_id)
+{
+    $log = OrderLog::where(['department' => 'designer', 'status' => 'completed', 'order_id' => $order_id])->first();
+return $log;
 }

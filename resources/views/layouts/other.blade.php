@@ -198,32 +198,60 @@
     @endif
 
 
-    <nav id="main-nav">
-        <ul class="second-nav">
-            <li><a href="/staff/dashboard"><i class="bx bxs-home me-2"></i>Dashboard</a></li>
-            <li><a href="/staff/add-customer"><i class="bx bxs-home me-2"></i>Add Customer</a></li>
-            <li><a href="/staff/customer-list"><i class="bx bxs-home me-2"></i>Customer List</a></li>
-            <li><a href="#"><i class="bx bxs-home me-2"></i>Create New Order</a></li>
-            <li><a href="/staff/create-order"><i class="bx bxs-user-circle me-2"></i>My Profile</a></li>
-        </ul>
-        <ul class="bottom-nav">
-            <li class="home">
-                <a href="/staff/dashboard" class="text-primary">
-                    <p class="h5 m-0"><i class="bx bxs-home"></i></p>
-                    Home
-                </a>
-            </li>
-            <li class="more">
-                <a href="#">
-                    <p class="h5 m-0"><i class="bx bxs-grid-alt"></i></p>
-                    More
-                </a>
-            </li>
-        </ul>
-    </nav>
 
 
-</div>
+        @if (auth()->user()->role == 'marketer')
+            <div class="footer mt-auto osahan-footer bg-white shadow">
+                <div class="d-flex align-items-center justify-content-between bottom-nav-main">
+                    <a href="/staff/create-order" class="col text-muted text-center">
+                        <i class="bx bx-plus-circle bx-sm"></i>
+                        <p class="small m-0">New Order</p>
+                    </a>
+                    <a href="/staff/orders" class="col text-muted text-center">
+                        <i class="bx bx-list-ul bx-sm"></i>
+                        <p class="small m-0">Orders</p>
+                    </a>
+                    <a href="/staff/customer-list" class="col text-muted text-center">
+                        <i class="bx bxs-user bx-sm"></i>
+                        <p class="small m-0">Customers</p>
+                    </a>
+                </div>
+            </div>
+        @endif
+
+
+
+        <nav id="main-nav">
+            <ul class="second-nav">
+
+
+                @if (auth()->user()->role == 'marketer')
+                    <li><a href="/staff/dashboard"><i class="bx bxs-home me-2"></i>Dashboard</a></li>
+                    <li><a href="/staff/add-customer"><i class="bx bxs-home me-2"></i>Add Customer</a></li>
+                    <li><a href="/staff/orders"><i class="bx bxs-home me-2"></i>Orders</a></li>
+                    <li><a href="/staff/customer-list"><i class="bx bxs-home me-2"></i>Customer List</a></li>
+                    <li><a href="/staff/create-order"><i class="bx bxs-home me-2"></i>Create New Order</a></li>
+                @endif
+
+            </ul>
+            <ul class="bottom-nav">
+                <li class="home">
+                    <a href="/staff/orders" class="text-primary">
+                        <p class="h5 m-0"><i class="bx bxs-home"></i></p>
+                        Home
+                    </a>
+                </li>
+                <li class="more">
+                    <a href="#">
+                        <p class="h5 m-0"><i class="bx bxs-grid-alt"></i></p>
+                        More
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+
+    </div>
 
 
 <script src="{{ asset('assets/vender/bootstrap/js/bootstrap.bundle.min.js') }}"></script>

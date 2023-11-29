@@ -42,6 +42,7 @@
             </div>
         @endif
 
+        <a href="/staff/create-order" class="btn mb-2 btn-outline-primary" style="width: 100%" > <i class="bx bx-plus" ></i> Create New Order </a>
 
         @foreach ($orders as $order)
             @php
@@ -49,19 +50,43 @@
                 $enumStatus = OrderStatus::fromInt($statusInt);
             @endphp
             <a href="/staff/customer/{{ $order->id }}" class="link-dark">
-                {{--            <a href="/staff/order/{{ $order->id }}" class="link-dark">--}}
+            <a href="/staff/order/{{ $order->id }}" class="link-dark">
                 <div
                     class="bg-white rounded-3 shadow d-flex align-items-center justify-content-between p-3 border border mb-2">
                     <div>
-                        <h6 class="mb-1"> {{ $order->customer->name }} </h6>
-                        <p class="mb-1 text-muted small">Added {{ date('j M, Y H:i a', strtotime($order->created_at)) }}
-                            |
-                            by
-                            {{ $order->staff->name }} </p>
-                        {{--using the enum--}}
+                        <span class="small text-muted ">Services</span>
 
-                        <p class="fw-bold {!! $enumStatus->statusClass() !!} small m-0">{{ $enumStatus }}</p>
+                        <ul class="fw-bold small mb-1 p-0" style="list-style: none">
+                            @foreach (explode(',', $order->service_name) as $service)
+                                <li>{{ $service }}</li>
+                            @endforeach
+                        </ul>
+
+                        <div class="bg-light p-1 rounded">
+                            <p class="mb-0 text-muted small">
+                                Created By <span class="fw-bold" >{{ $order->staff->name }}</span> On
+                                <span class="fw-bold" >{{ date('j M, Y', strtotime($order->created_at)) }}</span>
+                            </p>
+                        </div>
+
+                        @if (!$order->designer)
+                            <p class="text-danger mt-0 mb-0 small">No designer has started work on this order</p>
+                        @endif
+
+
+                        <div class="d-flex justify-content-start ">
+                            <div class="badge bg-secondary me-2">Designer One</div>
+                            @if ($order->designer)
+                                <div class="badge bg-warning">Pending</div>
+                            @endif
+                        </div>
+
+
+
+
+
                     </div>
+
                 </div>
             </a>
         @endforeach
@@ -69,6 +94,7 @@
         <div class="pt-3 d-flex justify-content-end ">
             {{ $orders->links('pagination::bootstrap-4') }}
         </div>
+
 
     </div>
 @endsection

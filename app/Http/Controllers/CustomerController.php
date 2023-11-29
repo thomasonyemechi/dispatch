@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Order;
-use App\Models\PushSubscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +16,18 @@ class CustomerController extends Controller
         return view('other.customers.login');
     }
 
+
+    function orderInfo($order_id)
+    {
+        $order = Order::findorfail($order_id);
+
+        if ($order->customer_id != auth('customers')->user()->id) {
+            abort(404);
+        }
+
+        return view('other.customers.order-info', compact(['order']));
+    }
+
     function customerProfile($customer_id)
     {
         $customer = Customer::findorfail($customer_id);
@@ -25,13 +36,13 @@ class CustomerController extends Controller
 
     function myProfile()
     {
-        $customer = Auth::guard('customers')->user();
+        $customer =  Auth::guard('customers')->user();
         return view('other.customers.my-profile', compact(['customer']));
     }
 
     function customerList()
     {
-        $customers = Customer::orderby('id', 'desc')->paginate(25);
+        $customers = Customer::where(['created_by' => auth()->user()->id ])->orderby('updated_at', 'desc')->paginate(25);
         return view('other.customers.customer-list', compact(['customers']));
     }
 
@@ -45,7 +56,7 @@ class CustomerController extends Controller
             'email' => '',
         ])->validate();
 
-        $customer = Customer::create([
+        Customer::create([
             'name' => $request->name,
             'phone' => $request->phone,
             'address' => $request->address,

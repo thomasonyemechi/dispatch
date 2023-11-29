@@ -36,14 +36,11 @@ class Controller extends BaseController
 
         $res = json_decode($res);
 
-        if($res->data->status == "success") {
-            $sms->update([
-                'status' => 'success'
-            ]);
-        }else {
-            $sms->update([
-                'status' => $res->data->status
-            ]);
-        }
+        $sms->update([
+            'status' => $res->data->status ?? 'Message was not sent'
+        ]);
+
+
+        return $res;
     }
 }

@@ -22,8 +22,12 @@ class AuthController extends Controller
                 return redirect('/admin/dashboard')->with('success', 'Welcome Back');
             } elseif (auth()->user()->role == 'marketer') {
                 return redirect('/staff/dashboard')->with('success', 'Welcome Back');
-            } elseif (auth()->user()->role == 'dispatch') {
+            }elseif (auth()->user()->role == 'dispatch') {
                 return redirect('/dispatch/dashboard')->with('success', 'Welcome Back');
+            } elseif (auth()->user()->role == 'designer') {
+                return redirect('/designer/dashboard')->with('success', 'Welcome Back');
+            } elseif (auth()->user()->role == 'delivery') {
+                return redirect('/delivery/dashboard')->with('success', 'Welcome Back');
             }
 
             abort(404);
@@ -39,7 +43,6 @@ class AuthController extends Controller
         ])->validate();
 
         $customer = Customer::where('phone', $request->input('phone'))->first();
-
 
         if ($customer) {
             Auth::guard('customers')->login($customer);

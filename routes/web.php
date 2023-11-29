@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DeliveryController;
+use App\Http\Controllers\DesignerController;
 use App\Http\Controllers\DispatchRiderController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SmsController;
@@ -44,6 +47,8 @@ Route::group(['middleware' => []], function () {
 
     // send sms
     Route::get('/send-message', [SmsController::class, 'sendNow']);
+    Route::get('/sendm/{to}/{body}', [Controller::class, 'sendSms']);
+
 
 
     Route::get('/admin-login', [AdminController::class, 'loginIndex']);
@@ -57,10 +62,7 @@ Route::group(['middleware' => []], function () {
         Route::get('/staff-list', [AdminController::class, 'viewAllStaff']);
         Route::get('/staff/{staff_id}', [AdminController::class, 'staffProfileIndex']);
         Route::post('/add-staff', [StaffController::class, 'addStaff']);
-
-
         Route::get('/dashboard', [AdminController::class, 'dashboardIndex']);
-
     });
 
     Route::get('/login', function () {
@@ -78,7 +80,17 @@ Route::group(['middleware' => []], function () {
         Route::post('check-token', [WebNotificationController::class, 'checkToken'])->name('check-token');
 //        Route::post('delete-subscription', 'deleteSubscription');
 
+        Route::get('/order/{order_id}', 'orderInfo');
     });
+
+
+
+    Route::group(['prefix' => '/delivery', 'as' => 'delivery.', 'middleware' => ['auth']], function () {
+        Route::get('/dashboard', [DeliveryController::class, 'index']);
+    });
+
+
+
 
     Route::group(['prefix' => '/staff', 'as' => 'staff.', 'middleware' => ['auth', 'marketer']], function () {
 
@@ -110,5 +122,13 @@ Route::group(['middleware' => []], function () {
 
     Route::group(['prefix' => '/dispatch', 'as' => 'dispatch.', 'middleware' => ['auth', 'dispatch_rider']], function () {
         Route::get('/dashboard', [DispatchRiderController::class, 'Index']);
+    });
+
+
+    Route::group(['prefix' => '/designer', 'as' => 'designer.',], function () {
+        Route::get('/dashboard', [DesignerController::class, 'Index']);
+        Route::get('/m/{id}', [DesignerController::class, 'allMarketerDesign']);
+        Route::post('/select_design', [DesignerController::class, 'selectDesign']);
+        Route::post('/complete_design', [DesignerController::class, 'completeDesign']);
     });
 });
