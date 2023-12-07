@@ -35,10 +35,10 @@ class WebNotificationController extends Controller
             'Authorization:key=' . $serverKey,
             'Content-Type: application/json',
         ];
-//        $headers = [
-//            'Authorization' => 'key=' . $serverKey,
-//            'Content-Type' => 'application/json',
-//        ];
+        //        $headers = [
+        //            'Authorization' => 'key=' . $serverKey,
+        //            'Content-Type' => 'application/json',
+        //        ];
 
 
         $ch = curl_init();
@@ -65,19 +65,19 @@ class WebNotificationController extends Controller
 
         curl_close($ch);
         return $response;
-//        $response = Http::withHeaders($headers)
-//            ->withOptions(['verify' => false]) // Disabling SSL verification
-//            ->post($url, $encodedData);
-//
-//        if ($response->failed()) {
-//            dd($response);
-//            die('HTTP request failed with status code: ' . $response->status());
-//        }
-//
-//        $result = $response->body();
+        //        $response = Http::withHeaders($headers)
+        //            ->withOptions(['verify' => false]) // Disabling SSL verification
+        //            ->post($url, $encodedData);
+        //
+        //        if ($response->failed()) {
+        //            dd($response);
+        //            die('HTTP request failed with status code: ' . $response->status());
+        //        }
+        //
+        //        $result = $response->body();
 
-// FCM response
-//        dd($result);
+        // FCM response
+        //        dd($result);
     }
 
     public function checkToken(Request $request)
@@ -94,6 +94,4 @@ class WebNotificationController extends Controller
 
         return response()->json(['exists' => $tokenExists]);
     }
-
-
 }

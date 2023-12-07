@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{asset('favicon.png')}}" type="image/png">
+    <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png">
     <title> @yield('page_title') | {{ env('APP_NAME') }}</title>
 
     <link rel="stylesheet" href="{{ asset('assets/vender/bootstrap/css/bootstrap.min.css') }}">
@@ -13,12 +13,12 @@
     <link href="{{ asset('assets/unpkg.com/boxicons%402.1.4/css/boxicons.min.css') }}" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('assets/vender/sidebar/demo.css') }}">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"> --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @laravelPWA
 
-    @if(auth()->guard('customers')->check())
+    @if (auth()->guard('customers')->check())
         <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
         <script>
             const firebaseConfig = {
@@ -39,18 +39,19 @@
             }
 
             function startFCM() {
-                const userId = "{{auth()->guard('customers')->user()->id}}"; // Get the user's identifier (e.g., user ID)
-                const storedToken = localStorage.getItem(`fcmToken_${userId}`); // Check if user-specific token is already stored
+                const userId = "{{ auth()->guard('customers')->user()->id }}"; // Get the user's identifier (e.g., user ID)
+                const storedToken = localStorage.getItem(
+                    `fcmToken_${userId}`); // Check if user-specific token is already stored
                 if (storedToken) {
                     // Token is already stored for the user, no need to generate it again
                     console.log('Using stored FCM token for user:', userId, storedToken);
                 } else {
                     messaging
                         .requestPermission()
-                        .then(function () {
+                        .then(function() {
                             return messaging.getToken()
                         })
-                        .then(function (response) {
+                        .then(function(response) {
                             localStorage.setItem(`fcmToken_${userId}`, response);
                             $.ajaxSetup({
                                 headers: {
@@ -58,27 +59,27 @@
                                 }
                             });
                             $.ajax({
-                                url: '{{ route("customer.store.token") }}',
+                                url: '{{ route('customer.store.token') }}',
                                 type: 'POST',
                                 data: {
                                     token: response
                                 },
                                 dataType: 'JSON',
-                                success: function (response) {
+                                success: function(response) {
                                     console.log('Token stored.');
                                 },
-                                error: function (error) {
+                                error: function(error) {
                                     console.log(error);
                                 },
                             });
 
-                        }).catch(function (error) {
-                        console.log(error);
-                    });
+                        }).catch(function(error) {
+                            console.log(error);
+                        });
                 }
             }
 
-            messaging.onMessage(function (payload) {
+            messaging.onMessage(function(payload) {
                 const title = payload.notification.title;
                 const options = {
                     body: payload.notification.body,
@@ -120,12 +121,12 @@
             //
             function tokenExists() {
                 return fetch("/customer/check-token", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        'X-CSRF-TOKEN': csrfToken,
-                    },
-                })
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            'X-CSRF-TOKEN': csrfToken,
+                        },
+                    })
                     .then((response) => {
                         if (response.ok) {
                             return response.json().then((data) => {
@@ -166,7 +167,6 @@
             //             // Handle the error as needed, and consider whether to call requestPermission() here.
             //         });
             // }
-
         </script>
     @endif
 </head>
@@ -174,28 +174,28 @@
 <body>
 
 
-<div class="home d-flex flex-column vh-100">
-    @if ($errors->any())
-        <div id="refresh" class="alert"
-             style="position:fixed; top:10px; right:10px; z-index:10000; width: auto;">
-            <i class="text-white">
-                @foreach ($errors->all() as $error)
-                    {{ $error }} <br/>
-                @endforeach
-            </i>
-        </div>
-    @endif
+    <div class="home d-flex flex-column vh-100">
+        @if ($errors->any())
+            <div id="refresh" class="alert"
+                style="position:fixed; top:10px; right:10px; z-index:10000; width: auto;">
+                <i class="text-white">
+                    @foreach ($errors->all() as $error)
+                        {{ $error }} <br />
+                    @endforeach
+                </i>
+            </div>
+        @endif
 
 
 
 
-    @yield('page_content')
+        @yield('page_content')
 
 
 
-    @if (Auth::guard('customers')->user())
-        @include('other.customers.customer-footer')
-    @endif
+        @if (Auth::guard('customers')->user())
+            @include('other.customers.customer-footer')
+        @endif
 
 
 
@@ -223,85 +223,157 @@
 
         <nav id="main-nav">
             <ul class="second-nav">
+                <li>
+                    <h4 class="fw-bold text-primary small mb-0"> {{auth()->user()->name}} </h4>
+                </li>
 
 
                 @if (auth()->user()->role == 'marketer')
-                    <li><a href="/staff/dashboard"><i class="bx bxs-home me-2"></i>Dashboard</a></li>
-                    <li><a href="/staff/add-customer"><i class="bx bxs-home me-2"></i>Add Customer</a></li>
-                    <li><a href="/staff/orders"><i class="bx bxs-home me-2"></i>Orders</a></li>
-                    <li><a href="/staff/customer-list"><i class="bx bxs-home me-2"></i>Customer List</a></li>
-                    <li><a href="/staff/create-order"><i class="bx bxs-home me-2"></i>Create New Order</a></li>
+                    <li><a href="#"><i class="bx bxs-home me-2"></i>Account Overview</a></li>
+
+                    <li>
+                        <h4 class="fw-bold small mb-0">Customer Management</h4>
+                    </li>
+
+                    <li><a href="/staff/add-customer"><i class="bx bxs-user-plus me-2"></i>Add Customer</a></li>
+                    <li><a href="/staff/customer-list"><i class="bx bxs-user me-2"></i>Customers List</a></li>
+
+
+
+                    <li>
+                        <h4 class="fw-bold small mb-0">Order Control</h4>
+                    </li>
+                    <li><a href="/staff/create-order"><i class="bx bxs-plus-circle me-2"></i>Create New Order</a></li>
+
+                    <li><a href="/staff/orders"><i class="bx bxs-circle me-2"></i>All Orders</a></li>
+                    <li><a href="#"><i class="bx bxs-circle me-2"></i>Under Design</a></li>
+                    <li><a href="/staff/under-delivery"><i class="bx bxs-circle me-2"></i>Pushed to Delivery</a></li>
+                    <li><a href="#"><i class="bx bxs-circle me-2"></i>Delivered Orders</a></li>
+
+                    <li>
+                        <h4 class="fw-bold small mb-0">Account Settings</h4>
+                    </li>
+                    <li><a href="#"><i class="bx bxs-edit me-2"></i>Update Profile</a></li>
+                    <li><a href="/logout"><i class="bx bxs-log-out-circle me-2"></i>Log Out</a></li>
+                @endif
+
+
+
+
+                @if (auth()->user()->role == 'delivery')
+                    <li><a href="/delivery/dashboard"><i class="bx bxs-home me-2"></i>Account Overview</a></li>
+
+                    <li>
+                        <h4 class="fw-bold small mb-0">Manage Riders</h4>
+                    </li>
+
+                    <li><a href="#"><i class="bx bxs-user-plus me-2"></i>Rider's List</a></li>
+
+                    <li>
+                        <h4 class="fw-bold small mb-0">Dispatch Management</h4>
+                    </li>
+
+                    <li><a href="/delivery/ptd"><i class="bx bxs-circle me-2"></i>Unattended Order </a></li>
+                    <li><a href="/delivery/ready"><i class="bx bxs-circle me-2"></i>Ready For Delivery </a></li>
+                    <li><a href="#"><i class="bx bxs-circle me-2"></i>On Delivery</a></li>
+                    <li><a href="#"><i class="bx bxs-circle me-2"></i>Delivered Orders </a></li>
+                    <li><a href="#" class="text-danger"><i class="bx bxs-circle me-2"></i>Urgent Delivery </a>
+                    </li>
+
+
+                    <li>
+                        <h4 class="fw-bold small mb-0">Account Settings</h4>
+                    </li>
+                    <li><a href="#"><i class="bx bxs-edit me-2"></i>Update Profile</a></li>
+                    <li><a href="/logout"><i class="bx bxs-log-out-circle me-2"></i>Log Out</a></li>
+                @endif
+
+
+                @if (auth()->user()->role == 'designer')
+                    <li><a href="/designer/overview"><i class="bx bxs-home me-2"></i>Account Overview</a></li>
+
+
+                    <li>
+                        <h4 class="fw-bold small mb-0">Designs</h4>
+                    </li>
+
+                    <li><a href="/designer/selected"><i class="bx bxs-circle me-2"></i>Selected Order </a></li>
+                    {{-- <li><a href="#"><i class="bx bxs-circle me-2"></i>Completed Designs</a></li> --}}
+                    <li><a href="/designer/undesigned"><i class="bx bxs-circle me-2"></i>See All Undesigned Orders</a>
+                    </li>
+                    </li>
+
+
+                    <li>
+                        <h4 class="fw-bold small mb-0">Account Settings</h4>
+                    </li>
+                    <li><a href="#"><i class="bx bxs-edit me-2"></i>Update Profile</a></li>
+                    <li><a href="/logout"><i class="bx bxs-log-out-circle me-2"></i>Log Out</a></li>
                 @endif
 
             </ul>
-            <ul class="bottom-nav">
+            {{-- <ul class="bottom-nav">
                 <li class="home">
                     <a href="/staff/orders" class="text-primary">
                         <p class="h5 m-0"><i class="bx bxs-home"></i></p>
-                        Home
+                        Orders
                     </a>
                 </li>
-                <li class="more">
-                    <a href="#">
-                        <p class="h5 m-0"><i class="bx bxs-grid-alt"></i></p>
-                        More
-                    </a>
-                </li>
-            </ul>
+            </ul> --}}
         </nav>
 
 
     </div>
 
 
-<script src="{{ asset('assets/vender/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/vender/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-<script src="{{ asset('assets/vender/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/vender/jquery/jquery.min.js') }}"></script>
 
-<script src="{{ asset('assets/vender/sidebar/hc-offcanvas-nav.js') }}"></script>
+    <script src="{{ asset('assets/vender/sidebar/hc-offcanvas-nav.js') }}"></script>
 
-<script src="{{ asset('assets/js/script.js') }}"></script>
-
-
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="{{ asset('assets/js/script.js') }}"></script>
 
 
-@stack('scripts')
+    {{-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script> --}}
 
 
-@if (session('error'))
-    <script>
-        Toastify({
-            text: "<?= session('error') ?>",
-            duration: 5000,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "right", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
-            style: {
-                background: "linear-gradient(to right, #b04300, #ff0000)",
-            },
-        }).showToast();
-    </script>
-@endif
+    @stack('scripts')
 
-@if (session('success'))
-    <script>
-        Toastify({
-            text: "<?= session('success') ?>",
-            duration: 5000,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "right", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
-            style: {
-                background: "linear-gradient(to right, #00b09b, #01ff01)",
-            },
-        }).showToast();
-    </script>
-@endif
 
-{{-- <script>
+    @if (session('error'))
+        <script>
+            // Toastify({
+            //     text: "<?= session('error') ?>",
+            //     duration: 5000,
+            //     close: true,
+            //     gravity: "top", // `top` or `bottom`
+            //     position: "right", // `left`, `center` or `right`
+            //     stopOnFocus: true, // Prevents dismissing of toast on hover
+            //     style: {
+            //         background: "linear-gradient(to right, #b04300, #ff0000)",
+            //     },
+            // }).showToast();
+        </script>
+    @endif
+
+    @if (session('success'))
+        <script>
+            // Toastify({
+            //     text: "<?= session('success') ?>",
+            //     duration: 5000,
+            //     close: true,
+            //     gravity: "top", // `top` or `bottom`
+            //     position: "right", // `left`, `center` or `right`
+            //     stopOnFocus: true, // Prevents dismissing of toast on hover
+            //     style: {
+            //         background: "linear-gradient(to right, #00b09b, #01ff01)",
+            //     },
+            // }).showToast();
+        </script>
+    @endif
+
+    {{-- <script>
     $(function() {
         setTimeout(() => {
             $('#refresh').hide('slow');

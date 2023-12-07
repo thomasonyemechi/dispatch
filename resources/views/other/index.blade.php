@@ -41,7 +41,7 @@
         </div>
 
 
-
+{{-- 
         <div class="p-3">
             <div class="row ">
                 <div class="col-xl-6 col-lg-6 col-6">
@@ -210,26 +210,6 @@
                     </ul>
                 </div>
             </div>
-        </div>
-
-        
-        {{-- 
-        <div>
-            @foreach ($customers as $cus)
-                <a href="/staff/customer/{{ $cus->id }}" class="link-dark">
-                    <div
-                        class="bg-white rounded-3 shadow d-flex align-items-center justify-content-between p-3 border border mb-2">
-                        <div>
-                            <h6 class="mb-1"> {{ $cus->name }} </h6>
-                            <p class="mb-1 text-muted small">Added {{ date('j M, Y H:i a', strtotime($cus->created_at)) }}
-                                | by
-                                {{ $cus->user->name }} </p>
-                            <p class="fw-bold text-success small m-0">Active</p>
-                        </div>
-                        <img src="{{ asset($cus->photo) }}" alt="" class="img-fluid rounded-pill profile">
-                    </div>
-                </a>
-            @endforeach
         </div> --}}
 
 

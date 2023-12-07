@@ -6,17 +6,24 @@
 @section('page_content')
 
     @include('other.designers.top')
+
+    <style>
+
+    </style>
+
     <div class="vh-100 my-auto overflow-auto">
 
-        <div class="border-bottom bg-white p-3 mb-3 rounded d-flex align-items-center ">
-            <img src="{{ asset($marketer->photo) }}" alt="" class="img-fluid me-2 rounded-lg profile">
-            <div>
-                <h6 class="mb-1">{{ $marketer->name }} </h6>
-                <a href="javasript:;">{{ $marketer->phone }} </a>
-            </div>
-        </div>
 
         <div>
+            @if (count($orders) == 0)
+                <div class="mt-5 d-flex justify-content-center align-items-center centerr">
+                    <div class="text-center" style="height: 16rem; width: 17rem;">
+                        <span class="text-danger"><i class="bx bx-x-circle" style="font-size: 50px"></i></span>
+                        <h6 class="text-center text-muted mt-3 font-900">You have not selected any order to design</h6>
+                        <a href="/designer/undesigned" class="">View Marketer Undesigned Orders</a>
+                    </div>
+                </div>
+            @endif
             @foreach ($orders as $order)
                 <div
                     class="bg-white rounded-3 shadow d-flex align-items-center justify-content-between p-3 border border mb-2">
@@ -56,18 +63,13 @@
                             </p>
                         @else
                             @if ($order->designer_id)
-                                <p class="text-info mt-0 mb-0 small">Design was slected by <span
-                                        class="fw-bold">{{ $order->designer->name }}</span> </p>
                                 @if ($order->designer_id == auth()->user()->id)
-                                    <button class="btn btn-outline-success mark-complete opacity-75 btn-sm py-0"
+                                    <button class="btn mt-2 btn-outline-success mark-complete opacity-75 btn-sm py-0"
                                         data-id={{ $order->id }}>mark as
                                         completed</button>
                                 @endif
                             @endif
                         @endif
-
-
-
                     </div>
                 </div>
             @endforeach
@@ -75,14 +77,13 @@
     </div>
 
     @include('other.designers.modals')
+
 @endsection
 
 
 @push('scripts')
     <script>
         $(function() {
-
-            ////    //complete modal
 
             mod = $('#completeModal')
 
@@ -121,7 +122,7 @@
                             couldn't find any uploaded files
                             <br>
                             <span class="mt-2 fw-bold" >
-                                Pls Contact {{ $marketer->name }} to confirm file uploads
+                                Pls Contact to confirm file uploads
                             </span>
                         </div>
                     `)

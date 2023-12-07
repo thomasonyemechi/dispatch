@@ -11,7 +11,7 @@
         </div>
 
         <div class="d-flex align-items-center gap-3 ms-auto">
-            <a href="notification.html" class="bg-white shadow rounded-pill notification-icon position-relative">
+            <a href="#" class="bg-white shadow rounded-pill notification-icon position-relative">
                 <i class="bx bxs-bell h5 m-0 text-primary"></i>
                 <span
                     class="position-absolute top-0 ms-5 mt-1 translate-middle badge rounded-circle bg-danger py-1 fw-normal">
@@ -32,10 +32,6 @@
 
 
     <div class="vh-100 my-auto overflow-auto p-3">
-
-        <a href="/staff/create-order" class="btn mb-2 btn-outline-primary" style="width: 100%"> <i class="bx bx-plus"></i>
-            Create New Order </a>
-
         @foreach ($orders as $order)
             @php
                 $statusInt = $order->status;

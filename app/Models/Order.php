@@ -14,18 +14,18 @@ class Order extends Model
 
     protected $guarded;
 
-    protected $fillable = [
-        'customer_id',
-        'designer_id',
-        'service_name',
-        'files',
-        'receiver_address',
-        'receiver_phone',
-        'total_price',
-        'advance_paid',
-        'receiving_date',
-        'created_by',
-    ];
+    // protected $fillable = [
+    //     'customer_id',
+    //     'designer_id',
+    //     'service_name',
+    //     'files',
+    //     'receiver_address',
+    //     'receiver_phone',
+    //     'total_price',
+    //     'advance_paid',
+    //     'receiving_date',
+    //     'created_by',
+    // ];
 
     protected $casts = [
         'files' => 'array',
@@ -71,8 +71,8 @@ class Order extends Model
     }
 
 
-    // function completeDesign()
-    // {
-    //     return OrderLog::where(['department' => 'designer', 'status' => 'completed'])->frist();
-    // }
+    function completeDesign()
+    {
+        return OrderLog::where(['department' => 'designer', 'status' => 'completed'])->frist();
+    }
 }

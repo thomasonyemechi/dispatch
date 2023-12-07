@@ -13,10 +13,39 @@ class DesignerController extends Controller
     public function Index()
     {
 
+   
+        return view('other.designers.overview', compact([]));
+    }
+
+
+    public function undesigned()
+    {
         $orders = Order::with(['customer:id,name', 'staff:id,name'])->where(['designer_id' => 0])->get()->groupBy(function ($data) {
             return $data->created_by;
         });
-        return view('other.designers.index', compact(['orders']));
+        return view('other.designers.undesigned', compact(['orders']));
+    }
+
+
+
+
+    function selected()
+    {
+        $orders = Order::with(['customer:id,name', 'staff:id,name'])->where(['designer_id' => auth()->user()->id])->orderby('updated_at', 'desc')->get();
+        return view('other.designers.selected_designs', compact(['orders']));
+    }   
+
+
+    function completed()
+    {
+        // $completed =    OrderLog::with(['order'])->where([''])->create([
+        //     'order_id' => $order->id,
+        //     'logged_by' => auth()->user()->id,
+        //     'department' => 'designer',
+        //     'remark' => 'Order design has been completed',
+        //     'status' => 'completed',
+        //     'files' => json_encode($fileNames),
+        // ]);
     }
 
 
@@ -36,7 +65,7 @@ class DesignerController extends Controller
         }
 
         $order->update([
-            'designer_id' => auth()->user()->id ,
+            'designer_id' => auth()->user()->id,
         ]);
 
         OrderLog::create([
@@ -56,7 +85,7 @@ class DesignerController extends Controller
     function completeDesign(Request $request)
     {
         $order = Order::findOrFail($request->id);
-        if ($order->designer_id != auth()->user()->id ) {
+        if ($order->designer_id != auth()->user()->id) {
             return back()->with('error', 'You cannot complete this design becasue it was not assgied to you ');
         }
 

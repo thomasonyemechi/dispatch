@@ -55,7 +55,7 @@
         <div class="mb-2 bg-white shadow p-3 border">
             <h6 class="fw-bold">Details</h6>
             <p class="mb-1 text-muted small">created by: {{ $order->staff->name }}</p>
-            <p class="fw-bold {!! $enumStatus->statusClass() !!} small m-0">status: {{ $enumStatus }}</p>
+            {{-- <p class="fw-bold {!! $enumStatus->statusClass() !!} small m-0">status: {{ $enumStatus }}</p> --}}
             <p class="mb-1 text-muted small">service name: {{ $order->service_name }}</p>
             <p class="mb-1 text-muted small">total
                 price: &#8358;{{ number_format($order->total_price, 2, '.', ',') }}</p>
@@ -75,33 +75,66 @@
 
         @if ($order->designer)
             <div class="mb-2 bg-white shadow p-3 border">
-                <h6 class="fw-bold mb-1">Designer Info</h6>
-                <p class="text-warning">Ensure order design is properly created by designer</p>
+                <h6 class="fw-bold small mb-1">Designer Info</h6>
+                <p class="text-warning small mb-1 ">Ensure order design is properly created by designer</p>
                 <div class="d-flex justify-content-between ">
                     <div class="d-flex">
                         <img src="{{ asset($order->designer->photo) }}" alt=""
-                            class="img-fluid shadow me-2 rounded-pill" style="width:55px; height: 55px; object-fit:cover;">
+                            class="img-fluid shadow me-2 rounded-pill" style="width:35px; height: 35px; object-fit:cover;">
                         <div class="mt-1">
-                            <h6 class="fw-bold mb-1 fs-5"> {{ $order->designer->name }} </h6>
-                            <div class="badge bg-info">{{ $order->designer->role }}</div>
+                            <h6 class="fw-bold mb-0 small"> {{ $order->designer->name }} </h6>
                             <div class="badge bg-secondary">{{ $order->designer->phone }}</div>
                         </div>
                     </div>
-                    <div class="">
-                        <div class="float-end mt-1">
-                            <div class="badge  bg-warning">Pending</div>
-                            <a href="javascript:;" class="d-block mt-2 "> <i class="bx bx-bell me-1"></i> <span>Alert</span>
-                            </a>
-                        </div>
-                    </div>
+                </div>
+
+                <div>
+
+                    @php
+                        $completed = completeDesign($order->id);
+                    @endphp
+
+                    @if ($completed)
+                        <p class="text-success mt-0 mb-0 small">Order design has been Completed
+                            {{-- <a href="javascript:;" data-files='{{ $completed->files }}'
+                                class=" view_order_design fw-bold">See
+                                Design</a> --}}
+                            </span>
+                        </p>
+                    @endif
                 </div>
             </div>
+
+
+
+
+            @if ($completed)
+                <div class="text-center px-3">
+
+
+                    @if ($order->dispatch_status == 0)
+                        <form action="/staff/push-to-delivery" method="POST"> @csrf
+                            <input type="hidden" name="id" value="{{ $order->id }}">
+                            <button class="btn btn-outline-warning bg-white shadow rounded-3 w-100 px-5 mb-3">Send To
+                                Delivery </button>
+                        </form>
+                    @else
+                        <div class="mb-2 bg-white shadow p-3 border">
+                            <h6 class="fw-bold small mb-1">Track Delivery </h6>
+                            <div>
+                                <p class="text-success mt-0 mb-0 small">Order has been sent to delivery </span> </p>
+                            </div>
+                        </div>
+                    @endif
+
+
+                </div>
+            @endif
+
+
         @endif
 
-        <div class="text-center px-3">
-            <a href="#" class="btn btn-outline-warning bg-white shadow rounded-3 w-100 px-5 mb-3">Push To Delivery
-                Department</a>
-        </div>
+
     </div>
 
     <div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">

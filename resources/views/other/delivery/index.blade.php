@@ -34,9 +34,19 @@
             <div class="col">
                 <div class="text-center">
                     <div>
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                        <label class="btn btn-outline-primary osahan-box" for="btnradio3"><span class="fs-1">0</span>
+                        </label>
+                    </div>
+                    <p class="pt-2 m-0">Urgent <br><span class="text-muted small">Delivery</span></p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="text-center">
+                    <div>
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off"
                             checked="">
-                        <label class="btn btn-outline-primary osahan-box" for="btnradio1"><i class="fs-1">200</i>
+                        <label class="btn btn-outline-primary osahan-box" for="btnradio1"><span class="fs-1">0</span>
                         </label>
                     </div>
                     <p class="pt-2 m-0">New Orders<br><span class="text-muted small">Registered Today</span></p>
@@ -46,29 +56,18 @@
                 <div class="text-center">
                     <div>
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                        <label class="btn btn-outline-primary osahan-box" for="btnradio2"><i class="fs-1">6</i>
+                        <label class="btn btn-outline-primary osahan-box" for="btnradio2"><span class="fs-1">0</span>
                         </label>
                     </div>
                     <p class="pt-2 m-0">Orders<br><span class="text-muted small">On the road</span></p>
                 </div>
             </div>
-            <div class="col">
-                <div class="text-center">
-                    <div>
-                        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-                        <label class="btn btn-outline-primary osahan-box" for="btnradio3"><i
-                                class="fs-1">40</i>
-                        </label>
-                    </div>
-                    <p class="pt-2 m-0">Urgent <br><span class="text-muted small">Delivery</span></p>
-                </div>
-            </div>
+
             <div class="col">
                 <div class="text-center">
                     <div>
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
-                        <label class="btn btn-outline-primary osahan-box" for="btnradio4"><i
-                                class="fs-1">750</i>
+                        <label class="btn btn-outline-primary osahan-box" for="btnradio4"><span class="fs-1">0</span>
                         </label>
                     </div>
                     <p class="pt-2 m-0">Delivered<br><span class="text-muted small">Orders</span></p>
@@ -78,11 +77,41 @@
                 <div class="text-center">
                     <div>
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
-                        <label class="btn btn-outline-primary osahan-box" for="btnradio5"><i
-                                class="fs-1">59</i>
+                        <label class="btn btn-outline-primary osahan-box" for="btnradio5"><span class="fs-1">{{ $ready_for_dispatch }}</span>
                         </label>
                     </div>
                     <p class="pt-2 m-0">Ready<br><span class="text-muted small">For Dispatch</span></p>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="text-center">
+
+                    <div>
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off">
+                        <label class="btn btn-outline-primary osahan-box" for="btnradio6"><span
+                                class="fs-1">{{ $pushed_to_delivery }}</span>
+                        </label>
+                    </div>
+
+                    <a href="/delivery/ptd">
+                        <p class="pt-2 m-0">Sent<br><span class="text-muted small">To Delivery</span></p>
+                    </a>
+                </div>
+            </div>
+            <div class="col">
+                <div class="text-center">
+
+                    <div>
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off">
+                        <label class="btn btn-outline-primary osahan-box" for="btnradio6"><span
+                                class="fs-1">0</span>
+                        </label>
+                    </div>
+
+                    <a href="#">
+                        <p class="pt-2 m-0">Damaged<br><span class="text-muted small">Orders</span></p>
+                    </a>
                 </div>
             </div>
         </div>

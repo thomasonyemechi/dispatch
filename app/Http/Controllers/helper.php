@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\OrderLog;
+use App\Models\User;
+
 function defff()
 {
     return true;
@@ -39,4 +42,9 @@ function completeDesign($order_id)
 {
     $log = OrderLog::where(['department' => 'designer', 'status' => 'completed', 'order_id' => $order_id])->first();
 return $log;
+}
+
+function user($id)
+{
+    return User::find($id);
 }

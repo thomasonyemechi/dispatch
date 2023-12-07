@@ -25,7 +25,7 @@ class AuthController extends Controller
             }elseif (auth()->user()->role == 'dispatch') {
                 return redirect('/dispatch/dashboard')->with('success', 'Welcome Back');
             } elseif (auth()->user()->role == 'designer') {
-                return redirect('/designer/dashboard')->with('success', 'Welcome Back');
+                return redirect('/designer/overview')->with('success', 'Welcome Back');
             } elseif (auth()->user()->role == 'delivery') {
                 return redirect('/delivery/dashboard')->with('success', 'Welcome Back');
             }

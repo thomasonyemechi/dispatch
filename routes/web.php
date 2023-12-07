@@ -87,6 +87,11 @@ Route::group(['middleware' => []], function () {
 
     Route::group(['prefix' => '/delivery', 'as' => 'delivery.', 'middleware' => ['auth']], function () {
         Route::get('/dashboard', [DeliveryController::class, 'index']);
+        Route::get('/ptd', [DeliveryController::class, 'ptdIndex']);
+        Route::get('/ready/{id}', [DeliveryController::class, 'readyForDelivery']);
+        Route::get('/ready', [DeliveryController::class, 'readyForDeliveryIndex']);
+        Route::post('/assgin_rider', [DeliveryController::class, 'assignRider']);
+        Route::get('/en_route', [DeliveryController::class, 'enRoute']);
     });
 
 
@@ -117,6 +122,9 @@ Route::group(['middleware' => []], function () {
             Route::get('order/{id}', 'viewOrder')->name('view-order');
             Route::post('order/update-status/{id}', 'updateOrderStatus')->name('update-order-status');
             Route::post('update-rider', 'updateDispatchRider')->name('update-order-rider');
+            Route::post('push-to-delivery', 'pushToDelivery');
+            Route::get('under-delivery', 'underDelivery');
+
         });
     });
 
@@ -126,7 +134,10 @@ Route::group(['middleware' => []], function () {
 
 
     Route::group(['prefix' => '/designer', 'as' => 'designer.',], function () {
-        Route::get('/dashboard', [DesignerController::class, 'Index']);
+        Route::get('/overview', [DesignerController::class, 'Index']);
+        Route::get('/undesigned', [DesignerController::class, 'undesigned']);
+        Route::get('/selected', [DesignerController::class, 'selected']);
+        Route::get('/completed', [DesignerController::class, 'completed']);
         Route::get('/m/{id}', [DesignerController::class, 'allMarketerDesign']);
         Route::post('/select_design', [DesignerController::class, 'selectDesign']);
         Route::post('/complete_design', [DesignerController::class, 'completeDesign']);

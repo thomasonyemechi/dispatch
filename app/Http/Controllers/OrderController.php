@@ -41,46 +41,45 @@ class OrderController extends Controller
         ])->validate();
 
         try {
-        $fileNames = [];
-        if ($request->hasFile('files')) {
-            foreach ($request->file('files') as $file) {
-                // Generate a unique file name
-                $fileName = uniqid($request->phone . '_') . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('orders'), $fileName);
-                $fileNames[] = $fileName;
+            $fileNames = [];
+            if ($request->hasFile('files')) {
+                foreach ($request->file('files') as $file) {
+                    // Generate a unique file name
+                    $fileName = uniqid($request->phone . '_') . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('orders'), $fileName);
+                    $fileNames[] = $fileName;
+                }
             }
-        }
 
 
-        $customer = Customer::updateOrCreate([
-            'phone' => $request->phone
-        ], [
-            'name' => $request->name ?? 'Customer ' . $request->phone,
-            'address' => $request->customer_address ?? 'null',
-            'email' => $request->email ?? 'dummy_' . $request->phone . '@gmail.com',
-            'created_by' => Auth::guard()->user()->id
-        ]);
+            $customer = Customer::updateOrCreate([
+                'phone' => $request->phone
+            ], [
+                'name' => $request->name ?? 'Customer ' . $request->phone,
+                'address' => $request->customer_address ?? 'null',
+                'email' => $request->email ?? 'dummy_' . $request->phone . '@gmail.com',
+                'created_by' => Auth::guard()->user()->id
+            ]);
 
-        $order = Order::query()->create([
-            'customer_id' => $customer->id,
-            'service_name' => $request->service_name,
-            'files' => json_encode($fileNames),
-            'receiver_address' => $request->receiver_address,
-            'receiver_phone' => $request->receiver_phone,
-            'total_price' => $request->total_price,
-            'advance_paid' => $request->advance_paid ?? 0,
-            'receiving_date' => $request->receiving_date,
-            'created_by' => Auth::guard()->user()->id,
-        ]);
+            $order = Order::query()->create([
+                'customer_id' => $customer->id,
+                'service_name' => $request->service_name,
+                'files' => json_encode($fileNames),
+                'receiver_address' => $request->receiver_address,
+                'receiver_phone' => $request->receiver_phone,
+                'total_price' => $request->total_price,
+                'advance_paid' => $request->advance_paid ?? 0,
+                'receiving_date' => $request->receiving_date,
+                'created_by' => Auth::guard()->user()->id,
+            ]);
 
-        $message = 'Congratulations! Your order ' . $request->service_name . ' of ₦' . number_format($request->total_price) . ', has been created. follow to track your order. Thank you for your continued patronage and support! ';
-        $this->sendSms($message, $request->phone);
-
+            $message = 'Congratulations! Your order ' . $request->service_name . ' of ₦' . number_format($request->total_price) . ', has been created. follow to track your order. Thank you for your continued patronage and support! ';
+            $this->sendSms($message, $request->phone);
         } catch (\Exception $exception) {
             \Log::emergency("File: " . $exception->getFile() . " Line: " . $exception->getLine() . " Message: " . $exception->getMessage());
             return back()->with('error', 'Something went wrong, try again');
         }
-        return redirect('/staff/order/'.$order->id)->with('success', 'Order Created Successfully');
+        return redirect('/staff/order/' . $order->id)->with('success', 'Order Created Successfully');
     }
 
 
@@ -92,7 +91,7 @@ class OrderController extends Controller
 
     public function viewOrders()
     {
-        $orders = Order::with(relations: ['customer', 'designer', 'staff'])->where(['created_by' => auth()->user()->id ])->orderBy('id', 'desc')->paginate(25);
+        $orders = Order::with(relations: ['customer', 'designer', 'staff'])->where(['created_by' => auth()->user()->id])->orderBy('id', 'desc')->paginate(25);
         return view('other.orders.orders-list', compact('orders'));
     }
 
@@ -144,5 +143,25 @@ class OrderController extends Controller
         return response()->json([
             'success' => true
         ]);
+    }
+
+
+    public function pushToDelivery(Request $request)
+    {
+        $order = Order::findorfail($request->id);
+        $ord = $order->update([
+            'dispatch_status' => 1
+        ]);
+        
+        $this->order_log($order->id, 'marketer', 'Order has been sent to delivery department');
+
+        return back()->with('success', 'Order has been push for delivery');
+    }
+
+
+    public function underDelivery()
+    {
+        $orders = Order::with(relations: ['customer', 'designer', 'staff'])->where(['created_by' => auth()->user()->id, 'dispatch_status' => 1 ])->orderBy('updated_at', 'desc')->paginate(25);
+        return view('other.orders.push_to_delivery',  compact('orders') );
     }
 }
